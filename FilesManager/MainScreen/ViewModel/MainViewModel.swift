@@ -14,6 +14,8 @@ protocol MainViewModel: AnyObject {
 
     var selectedFilesIndexes: [Int] { get set }
 
+    var error: PassthroughSubject<Error?, Never> { get set }
+
     func getFiles()
 
     func onNeedAddFiles()

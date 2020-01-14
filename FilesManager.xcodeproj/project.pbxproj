@@ -11,7 +11,6 @@
 		DE6F135823CC74D3003FE5D0 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F135723CC74D3003FE5D0 /* MainViewController.swift */; };
 		DE6F135A23CC74D7003FE5D0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE6F135923CC74D7003FE5D0 /* Assets.xcassets */; };
 		DE6F135D23CC74D7003FE5D0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE6F135B23CC74D7003FE5D0 /* Main.storyboard */; };
-		DE6F136823CCAD14003FE5D0 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F136723CCAD14003FE5D0 /* File.swift */; };
 		DE6F136A23CCAE2D003FE5D0 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F136923CCAE2D003FE5D0 /* MainViewModel.swift */; };
 		DE6F136C23CCB057003FE5D0 /* FileViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F136B23CCB057003FE5D0 /* FileViewItem.swift */; };
 		DE6F137023CDB57C003FE5D0 /* MainViewModelImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F136F23CDB57C003FE5D0 /* MainViewModelImpl.swift */; };
@@ -19,7 +18,43 @@
 		DE6F137523CDB657003FE5D0 /* MainTableViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F137423CDB657003FE5D0 /* MainTableViewAdapter.swift */; };
 		DE6F137823CDB740003FE5D0 /* MainFileNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F137723CDB73F003FE5D0 /* MainFileNameCell.swift */; };
 		DE6F137A23CDB757003FE5D0 /* MainFileInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F137923CDB757003FE5D0 /* MainFileInfoCell.swift */; };
+		DE6F138723CDEBD0003FE5D0 /* DataLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = DE6F138523CDEBD0003FE5D0 /* DataLayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DE6F138A23CDEBD0003FE5D0 /* DataLayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6F138323CDEBD0003FE5D0 /* DataLayer.framework */; };
+		DE6F138B23CDEBD0003FE5D0 /* DataLayer.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DE6F138323CDEBD0003FE5D0 /* DataLayer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DE6F139223CDFDB8003FE5D0 /* UseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F139123CDFDB8003FE5D0 /* UseCase.swift */; };
+		DE6F139623CE0094003FE5D0 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F139523CE0094003FE5D0 /* FileManager.swift */; };
+		DE6F139923CE1A74003FE5D0 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F136723CCAD14003FE5D0 /* File.swift */; };
+		DE6F139B23CE1ACF003FE5D0 /* FileManagerImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F139A23CE1ACF003FE5D0 /* FileManagerImpl.swift */; };
+		DE6F139D23CE1B38003FE5D0 /* AddNewFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F139C23CE1B38003FE5D0 /* AddNewFiles.swift */; };
+		DE6F139F23CE1C42003FE5D0 /* Publishers+Fail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F139E23CE1C42003FE5D0 /* Publishers+Fail.swift */; };
+		DE6F13A123CE1C77003FE5D0 /* DataLayerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F13A023CE1C77003FE5D0 /* DataLayerError.swift */; };
+		DE6F13A323CE1D03003FE5D0 /* RemoveFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F13A223CE1D03003FE5D0 /* RemoveFiles.swift */; };
+		DE6F13A623CE1D55003FE5D0 /* NSViewController+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F13A523CE1D55003FE5D0 /* NSViewController+Error.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DE6F138823CDEBD0003FE5D0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DE6F134A23CC74D3003FE5D0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DE6F138223CDEBD0003FE5D0;
+			remoteInfo = DataLayer;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		DE6F138F23CDEBD0003FE5D0 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				DE6F138B23CDEBD0003FE5D0 /* DataLayer.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		DE6F135223CC74D3003FE5D0 /* FilesManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilesManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -37,10 +72,29 @@
 		DE6F137423CDB657003FE5D0 /* MainTableViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewAdapter.swift; sourceTree = "<group>"; };
 		DE6F137723CDB73F003FE5D0 /* MainFileNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFileNameCell.swift; sourceTree = "<group>"; };
 		DE6F137923CDB757003FE5D0 /* MainFileInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFileInfoCell.swift; sourceTree = "<group>"; };
+		DE6F138323CDEBD0003FE5D0 /* DataLayer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DataLayer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE6F138523CDEBD0003FE5D0 /* DataLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataLayer.h; sourceTree = "<group>"; };
+		DE6F138623CDEBD0003FE5D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DE6F139123CDFDB8003FE5D0 /* UseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCase.swift; sourceTree = "<group>"; };
+		DE6F139523CE0094003FE5D0 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
+		DE6F139A23CE1ACF003FE5D0 /* FileManagerImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerImpl.swift; sourceTree = "<group>"; };
+		DE6F139C23CE1B38003FE5D0 /* AddNewFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewFiles.swift; sourceTree = "<group>"; };
+		DE6F139E23CE1C42003FE5D0 /* Publishers+Fail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publishers+Fail.swift"; sourceTree = "<group>"; };
+		DE6F13A023CE1C77003FE5D0 /* DataLayerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLayerError.swift; sourceTree = "<group>"; };
+		DE6F13A223CE1D03003FE5D0 /* RemoveFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveFiles.swift; sourceTree = "<group>"; };
+		DE6F13A523CE1D55003FE5D0 /* NSViewController+Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSViewController+Error.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		DE6F134F23CC74D3003FE5D0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DE6F138A23CDEBD0003FE5D0 /* DataLayer.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DE6F138023CDEBD0003FE5D0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -54,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				DE6F135423CC74D3003FE5D0 /* FilesManager */,
+				DE6F138423CDEBD0003FE5D0 /* DataLayer */,
 				DE6F135323CC74D3003FE5D0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -62,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				DE6F135223CC74D3003FE5D0 /* FilesManager.app */,
+				DE6F138323CDEBD0003FE5D0 /* DataLayer.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -69,6 +125,7 @@
 		DE6F135423CC74D3003FE5D0 /* FilesManager */ = {
 			isa = PBXGroup;
 			children = (
+				DE6F13A423CE1D3B003FE5D0 /* Common */,
 				DE6F136623CCAD09003FE5D0 /* Models */,
 				DE6F136523CCABF4003FE5D0 /* MainScreen */,
 				DE6F135523CC74D3003FE5D0 /* AppDelegate.swift */,
@@ -92,7 +149,6 @@
 		DE6F136623CCAD09003FE5D0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				DE6F136723CCAD14003FE5D0 /* File.swift */,
 				DE6F136B23CCB057003FE5D0 /* FileViewItem.swift */,
 			);
 			path = Models;
@@ -135,7 +191,83 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		DE6F138423CDEBD0003FE5D0 /* DataLayer */ = {
+			isa = PBXGroup;
+			children = (
+				DE6F139823CE1A6E003FE5D0 /* Entities */,
+				DE6F139323CE006D003FE5D0 /* Services */,
+				DE6F139023CDFCF7003FE5D0 /* Common */,
+				DE6F138523CDEBD0003FE5D0 /* DataLayer.h */,
+				DE6F138623CDEBD0003FE5D0 /* Info.plist */,
+			);
+			path = DataLayer;
+			sourceTree = "<group>";
+		};
+		DE6F139023CDFCF7003FE5D0 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				DE6F139123CDFDB8003FE5D0 /* UseCase.swift */,
+				DE6F139E23CE1C42003FE5D0 /* Publishers+Fail.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		DE6F139323CE006D003FE5D0 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				DE6F139423CE007D003FE5D0 /* FilesManager */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		DE6F139423CE007D003FE5D0 /* FilesManager */ = {
+			isa = PBXGroup;
+			children = (
+				DE6F139723CE1A31003FE5D0 /* UseCases */,
+				DE6F139523CE0094003FE5D0 /* FileManager.swift */,
+				DE6F139A23CE1ACF003FE5D0 /* FileManagerImpl.swift */,
+			);
+			path = FilesManager;
+			sourceTree = "<group>";
+		};
+		DE6F139723CE1A31003FE5D0 /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+				DE6F139C23CE1B38003FE5D0 /* AddNewFiles.swift */,
+				DE6F13A223CE1D03003FE5D0 /* RemoveFiles.swift */,
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
+		DE6F139823CE1A6E003FE5D0 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				DE6F136723CCAD14003FE5D0 /* File.swift */,
+				DE6F13A023CE1C77003FE5D0 /* DataLayerError.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		DE6F13A423CE1D3B003FE5D0 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				DE6F13A523CE1D55003FE5D0 /* NSViewController+Error.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		DE6F137E23CDEBD0003FE5D0 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DE6F138723CDEBD0003FE5D0 /* DataLayer.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		DE6F135123CC74D3003FE5D0 /* FilesManager */ = {
@@ -145,15 +277,35 @@
 				DE6F134E23CC74D3003FE5D0 /* Sources */,
 				DE6F134F23CC74D3003FE5D0 /* Frameworks */,
 				DE6F135023CC74D3003FE5D0 /* Resources */,
+				DE6F138F23CDEBD0003FE5D0 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				DE6F138923CDEBD0003FE5D0 /* PBXTargetDependency */,
 			);
 			name = FilesManager;
 			productName = FilesManager;
 			productReference = DE6F135223CC74D3003FE5D0 /* FilesManager.app */;
 			productType = "com.apple.product-type.application";
+		};
+		DE6F138223CDEBD0003FE5D0 /* DataLayer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DE6F138C23CDEBD0003FE5D0 /* Build configuration list for PBXNativeTarget "DataLayer" */;
+			buildPhases = (
+				DE6F137E23CDEBD0003FE5D0 /* Headers */,
+				DE6F137F23CDEBD0003FE5D0 /* Sources */,
+				DE6F138023CDEBD0003FE5D0 /* Frameworks */,
+				DE6F138123CDEBD0003FE5D0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DataLayer;
+			productName = DataLayer;
+			productReference = DE6F138323CDEBD0003FE5D0 /* DataLayer.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -167,6 +319,10 @@
 				TargetAttributes = {
 					DE6F135123CC74D3003FE5D0 = {
 						CreatedOnToolsVersion = 11.3;
+					};
+					DE6F138223CDEBD0003FE5D0 = {
+						CreatedOnToolsVersion = 11.3;
+						LastSwiftMigration = 1130;
 					};
 				};
 			};
@@ -184,6 +340,7 @@
 			projectRoot = "";
 			targets = (
 				DE6F135123CC74D3003FE5D0 /* FilesManager */,
+				DE6F138223CDEBD0003FE5D0 /* DataLayer */,
 			);
 		};
 /* End PBXProject section */
@@ -198,6 +355,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DE6F138123CDEBD0003FE5D0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -205,10 +369,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE6F13A623CE1D55003FE5D0 /* NSViewController+Error.swift in Sources */,
 				DE6F137823CDB740003FE5D0 /* MainFileNameCell.swift in Sources */,
 				DE6F135823CC74D3003FE5D0 /* MainViewController.swift in Sources */,
 				DE6F136C23CCB057003FE5D0 /* FileViewItem.swift in Sources */,
-				DE6F136823CCAD14003FE5D0 /* File.swift in Sources */,
 				DE6F137223CDB5C5003FE5D0 /* MainViewControllerImpl.swift in Sources */,
 				DE6F137023CDB57C003FE5D0 /* MainViewModelImpl.swift in Sources */,
 				DE6F135623CC74D3003FE5D0 /* AppDelegate.swift in Sources */,
@@ -218,7 +382,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DE6F137F23CDEBD0003FE5D0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DE6F139F23CE1C42003FE5D0 /* Publishers+Fail.swift in Sources */,
+				DE6F139D23CE1B38003FE5D0 /* AddNewFiles.swift in Sources */,
+				DE6F139223CDFDB8003FE5D0 /* UseCase.swift in Sources */,
+				DE6F139B23CE1ACF003FE5D0 /* FileManagerImpl.swift in Sources */,
+				DE6F139923CE1A74003FE5D0 /* File.swift in Sources */,
+				DE6F13A323CE1D03003FE5D0 /* RemoveFiles.swift in Sources */,
+				DE6F13A123CE1C77003FE5D0 /* DataLayerError.swift in Sources */,
+				DE6F139623CE0094003FE5D0 /* FileManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DE6F138923CDEBD0003FE5D0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DE6F138223CDEBD0003FE5D0 /* DataLayer */;
+			targetProxy = DE6F138823CDEBD0003FE5D0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		DE6F135B23CC74D7003FE5D0 /* Main.storyboard */ = {
@@ -348,6 +535,7 @@
 		DE6F136323CC74D7003FE5D0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FilesManager/FilesManager.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -366,6 +554,7 @@
 		DE6F136423CC74D7003FE5D0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FilesManager/FilesManager.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -378,6 +567,61 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.miserya.FilesManager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		DE6F138D23CDEBD0003FE5D0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = DataLayer/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.miserya.DataLayer;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		DE6F138E23CDEBD0003FE5D0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = DataLayer/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.miserya.DataLayer;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
@@ -398,6 +642,15 @@
 			buildConfigurations = (
 				DE6F136323CC74D7003FE5D0 /* Debug */,
 				DE6F136423CC74D7003FE5D0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DE6F138C23CDEBD0003FE5D0 /* Build configuration list for PBXNativeTarget "DataLayer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DE6F138D23CDEBD0003FE5D0 /* Debug */,
+				DE6F138E23CDEBD0003FE5D0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

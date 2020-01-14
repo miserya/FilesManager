@@ -67,5 +67,11 @@ class MainViewControllerImpl: NSViewController, MainViewController {
         adapter.$selectedFilesIndexes
             .assign(to: \.selectedFilesIndexes, on: viewModel)
             .store(in: &subscriptions)
+
+        viewModel.error
+            .sink { [weak self] (error: Error?) in
+                guard let error = error, let self = self else { return }
+                self.show(error: error) }
+            .store(in: &subscriptions)
     }
 }
