@@ -164,7 +164,7 @@
                                         <action selector="onDuplicateFiles:" target="Oky-zY-oP4" id="zzw-ed-OOp"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="5AF0751F-34B1-48CF-BFC1-AA257D6CD21A" label="Delete" paletteLabel="Delete" tag="-1" image="delete" sizingBehavior="auto" id="qtq-sg-pwc">
+                                <toolbarItem implicitItemIdentifier="5AF0751F-34B1-48CF-BFC1-AA257D6CD21A" label="Remove" paletteLabel="Remove" tag="-1" image="delete" sizingBehavior="auto" id="qtq-sg-pwc">
                                     <connections>
                                         <action selector="onDeleteFiles:" target="Oky-zY-oP4" id="dgC-3b-WZV"/>
                                     </connections>
@@ -217,7 +217,7 @@
                                             <tableColumns>
                                                 <tableColumn identifier="FileName" width="200" minWidth="200" maxWidth="1000" id="EHu-gx-XjR">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="File name">
-                                                        <font key="font" metaFont="message" size="11"/>
+                                                        <font key="font" metaFont="menu" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -289,7 +289,7 @@
                                                 </tableColumn>
                                                 <tableColumn identifier="FileSize" width="100" minWidth="40" maxWidth="100" id="Qao-9L-ioo">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="File size">
-                                                        <font key="font" metaFont="message" size="11"/>
+                                                        <font key="font" metaFont="menu" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -302,7 +302,7 @@
                                                 </tableColumn>
                                                 <tableColumn identifier="FileLocation" width="538" minWidth="100" maxWidth="1000" id="OXy-4N-Jex">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Location">
-                                                        <font key="font" metaFont="message" size="11"/>
+                                                        <font key="font" metaFont="menu" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -315,7 +315,7 @@
                                                 </tableColumn>
                                                 <tableColumn identifier="FileHash" width="120" minWidth="100" maxWidth="200" id="bBA-ar-kfw">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Hash">
-                                                        <font key="font" metaFont="message" size="11"/>
+                                                        <font key="font" metaFont="menu" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
