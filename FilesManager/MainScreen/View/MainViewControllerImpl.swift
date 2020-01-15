@@ -29,6 +29,8 @@ class MainViewControllerImpl: NSViewController, MainViewController {
         tableView.delegate = adapter
         tableView.dataSource = adapter
 
+        adapter.tableView = tableView
+
         setupSubscriptions()
     }
 
@@ -36,13 +38,12 @@ class MainViewControllerImpl: NSViewController, MainViewController {
         super.viewDidAppear()
 
         viewModel.getFiles()
-        tableView.reloadData()
     }
 
     //MARK: - Toolbar actions
 
     @IBAction func onAddFiles(_ sender: Any) {
-        viewModel.onNeedAddFiles()
+        viewModel.startImportFilesAction()
     }
 
     @IBAction func onDeleteFiles(_ sender: Any) {
@@ -73,5 +74,35 @@ class MainViewControllerImpl: NSViewController, MainViewController {
                 guard let error = error, let self = self else { return }
                 self.show(error: error) }
             .store(in: &subscriptions)
+
+        viewModel.isFilesActionsEnabled
+            .sink(receiveCompletion: { _ in }) { (value: Bool) in
+                if let appDel = NSApplication.shared.delegate as? AppDelegate {
+                    appDel.enableActions(duplicate: value, calculateHash: value, delete: value)
+                } }
+            .store(in: &subscriptions)
+
+        viewModel.isOpenPanelShowed
+            .sink(receiveCompletion: { _ in }) { [weak self] (value: Bool) in
+                if value {
+                    self?.showOpenPanel()
+                } }
+            .store(in: &subscriptions)
+    }
+
+    private func showOpenPanel() {
+        guard let window = view.window else { return }
+
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = true
+        panel.canChooseDirectories = false
+        panel.allowsMultipleSelection = true
+
+        panel.beginSheetModal(for: window) { [unowned panel, unowned viewModel] (result) in
+            if result == NSApplication.ModalResponse.OK {
+                viewModel.endImportFilesAction()
+                viewModel.addFiles(at: panel.urls)
+            }
+        }
     }
 }

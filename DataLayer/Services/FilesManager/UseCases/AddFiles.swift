@@ -1,5 +1,5 @@
 //
-//  RemoveFiles.swift
+//  AddNewFiles.swift
 //  DataLayer
 //
 //  Created by Maria Holubieva on 14.01.2020.
@@ -8,11 +8,11 @@
 
 import Combine
 
-final public class RemoveFiles: UseCase<[File], Void> {
+final public class AddFiles: UseCase<[URL], Void> {
 
     private let service: FilesService = FilesServiceImpl()
 
-    override func build(with args: [File]) -> AnyPublisher<Void, Error> {
-        return service.remove(files: args)
+    override func build(with args: [URL]) -> AnyPublisher<Void, Error> {
+        return service.add(filesAt: args)
     }
 }

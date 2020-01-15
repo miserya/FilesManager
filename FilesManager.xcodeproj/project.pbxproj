@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DE6C0D2923CF5703001D5F37 /* UserDefaults+PropertyWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6C0D2823CF5703001D5F37 /* UserDefaults+PropertyWrapper.swift */; };
 		DE6F135623CC74D3003FE5D0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F135523CC74D3003FE5D0 /* AppDelegate.swift */; };
 		DE6F135823CC74D3003FE5D0 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F135723CC74D3003FE5D0 /* MainViewController.swift */; };
 		DE6F135A23CC74D7003FE5D0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE6F135923CC74D7003FE5D0 /* Assets.xcassets */; };
@@ -22,14 +23,15 @@
 		DE6F138A23CDEBD0003FE5D0 /* DataLayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6F138323CDEBD0003FE5D0 /* DataLayer.framework */; };
 		DE6F138B23CDEBD0003FE5D0 /* DataLayer.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DE6F138323CDEBD0003FE5D0 /* DataLayer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DE6F139223CDFDB8003FE5D0 /* UseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F139123CDFDB8003FE5D0 /* UseCase.swift */; };
-		DE6F139623CE0094003FE5D0 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F139523CE0094003FE5D0 /* FileManager.swift */; };
+		DE6F139623CE0094003FE5D0 /* FilesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F139523CE0094003FE5D0 /* FilesService.swift */; };
 		DE6F139923CE1A74003FE5D0 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F136723CCAD14003FE5D0 /* File.swift */; };
-		DE6F139B23CE1ACF003FE5D0 /* FileManagerImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F139A23CE1ACF003FE5D0 /* FileManagerImpl.swift */; };
-		DE6F139D23CE1B38003FE5D0 /* AddNewFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F139C23CE1B38003FE5D0 /* AddNewFiles.swift */; };
+		DE6F139B23CE1ACF003FE5D0 /* FilesServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F139A23CE1ACF003FE5D0 /* FilesServiceImpl.swift */; };
+		DE6F139D23CE1B38003FE5D0 /* AddFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F139C23CE1B38003FE5D0 /* AddFiles.swift */; };
 		DE6F139F23CE1C42003FE5D0 /* Publishers+Fail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F139E23CE1C42003FE5D0 /* Publishers+Fail.swift */; };
 		DE6F13A123CE1C77003FE5D0 /* DataLayerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F13A023CE1C77003FE5D0 /* DataLayerError.swift */; };
 		DE6F13A323CE1D03003FE5D0 /* RemoveFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F13A223CE1D03003FE5D0 /* RemoveFiles.swift */; };
 		DE6F13A623CE1D55003FE5D0 /* NSViewController+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F13A523CE1D55003FE5D0 /* NSViewController+Error.swift */; };
+		DE9BCD7D23CF410E0084D95C /* GetFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9BCD7C23CF410E0084D95C /* GetFiles.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +59,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DE6C0D2823CF5703001D5F37 /* UserDefaults+PropertyWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+PropertyWrapper.swift"; sourceTree = "<group>"; };
 		DE6F135223CC74D3003FE5D0 /* FilesManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilesManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE6F135523CC74D3003FE5D0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DE6F135723CC74D3003FE5D0 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -76,13 +79,14 @@
 		DE6F138523CDEBD0003FE5D0 /* DataLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataLayer.h; sourceTree = "<group>"; };
 		DE6F138623CDEBD0003FE5D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DE6F139123CDFDB8003FE5D0 /* UseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCase.swift; sourceTree = "<group>"; };
-		DE6F139523CE0094003FE5D0 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
-		DE6F139A23CE1ACF003FE5D0 /* FileManagerImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerImpl.swift; sourceTree = "<group>"; };
-		DE6F139C23CE1B38003FE5D0 /* AddNewFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewFiles.swift; sourceTree = "<group>"; };
+		DE6F139523CE0094003FE5D0 /* FilesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesService.swift; sourceTree = "<group>"; };
+		DE6F139A23CE1ACF003FE5D0 /* FilesServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesServiceImpl.swift; sourceTree = "<group>"; };
+		DE6F139C23CE1B38003FE5D0 /* AddFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFiles.swift; sourceTree = "<group>"; };
 		DE6F139E23CE1C42003FE5D0 /* Publishers+Fail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publishers+Fail.swift"; sourceTree = "<group>"; };
 		DE6F13A023CE1C77003FE5D0 /* DataLayerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLayerError.swift; sourceTree = "<group>"; };
 		DE6F13A223CE1D03003FE5D0 /* RemoveFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveFiles.swift; sourceTree = "<group>"; };
 		DE6F13A523CE1D55003FE5D0 /* NSViewController+Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSViewController+Error.swift"; sourceTree = "<group>"; };
+		DE9BCD7C23CF410E0084D95C /* GetFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFiles.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,6 +212,7 @@
 			children = (
 				DE6F139123CDFDB8003FE5D0 /* UseCase.swift */,
 				DE6F139E23CE1C42003FE5D0 /* Publishers+Fail.swift */,
+				DE6C0D2823CF5703001D5F37 /* UserDefaults+PropertyWrapper.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -224,8 +229,8 @@
 			isa = PBXGroup;
 			children = (
 				DE6F139723CE1A31003FE5D0 /* UseCases */,
-				DE6F139523CE0094003FE5D0 /* FileManager.swift */,
-				DE6F139A23CE1ACF003FE5D0 /* FileManagerImpl.swift */,
+				DE6F139523CE0094003FE5D0 /* FilesService.swift */,
+				DE6F139A23CE1ACF003FE5D0 /* FilesServiceImpl.swift */,
 			);
 			path = FilesManager;
 			sourceTree = "<group>";
@@ -233,7 +238,8 @@
 		DE6F139723CE1A31003FE5D0 /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
-				DE6F139C23CE1B38003FE5D0 /* AddNewFiles.swift */,
+				DE9BCD7C23CF410E0084D95C /* GetFiles.swift */,
+				DE6F139C23CE1B38003FE5D0 /* AddFiles.swift */,
 				DE6F13A223CE1D03003FE5D0 /* RemoveFiles.swift */,
 			);
 			path = UseCases;
@@ -386,14 +392,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE9BCD7D23CF410E0084D95C /* GetFiles.swift in Sources */,
 				DE6F139F23CE1C42003FE5D0 /* Publishers+Fail.swift in Sources */,
-				DE6F139D23CE1B38003FE5D0 /* AddNewFiles.swift in Sources */,
+				DE6F139D23CE1B38003FE5D0 /* AddFiles.swift in Sources */,
+				DE6C0D2923CF5703001D5F37 /* UserDefaults+PropertyWrapper.swift in Sources */,
 				DE6F139223CDFDB8003FE5D0 /* UseCase.swift in Sources */,
-				DE6F139B23CE1ACF003FE5D0 /* FileManagerImpl.swift in Sources */,
+				DE6F139B23CE1ACF003FE5D0 /* FilesServiceImpl.swift in Sources */,
 				DE6F139923CE1A74003FE5D0 /* File.swift in Sources */,
 				DE6F13A323CE1D03003FE5D0 /* RemoveFiles.swift in Sources */,
 				DE6F13A123CE1C77003FE5D0 /* DataLayerError.swift in Sources */,
-				DE6F139623CE0094003FE5D0 /* FileManager.swift in Sources */,
+				DE6F139623CE0094003FE5D0 /* FilesService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

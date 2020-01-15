@@ -11,16 +11,23 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-
+    @IBOutlet weak var btnAdd: NSMenuItem!
+    @IBOutlet weak var btnDuplicate: NSMenuItem!
+    @IBOutlet weak var btnCalculateHash: NSMenuItem!
+    @IBOutlet weak var btnDelete: NSMenuItem!
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+        enableActions(duplicate: false, calculateHash: false, delete: false)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
     }
 
+    func enableActions(duplicate: Bool, calculateHash: Bool, delete: Bool) {
+        btnDuplicate.isEnabled = duplicate
+        btnCalculateHash.isEnabled = calculateHash
+        btnDelete.isEnabled = delete
+    }
 
 }
 

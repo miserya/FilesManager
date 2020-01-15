@@ -21,8 +21,12 @@ class MainTableViewAdapter: NSObject, NSTableViewDelegate, NSTableViewDataSource
             return NSUserInterfaceItemIdentifier(self.rawValue)
         }
     }
-
-    var files = [FileViewItem]()
+    weak var tableView: NSTableView?
+    var files = [FileViewItem]() {
+        didSet {
+            tableView?.reloadData()
+        }
+    }
     @Published private(set) var selectedFilesIndexes = [Int]()
 
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -35,6 +39,7 @@ class MainTableViewAdapter: NSObject, NSTableViewDelegate, NSTableViewDataSource
         switch tableColumn?.identifier {
         case Column.name.itemID?:
             let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier("MainFileNameCell"), owner: nil) as? MainFileNameCell
+            cell?.imgFileIcon.image = item.image
             cell?.labelFileName.stringValue = item.name
             return cell
 

@@ -6,10 +6,10 @@
 //  Copyright © 2020 Maria Holubieva. All rights reserved.
 //
 
-import Foundation
+import Cocoa
 
 struct FileViewItem {
-    let imageName: String
+    let image: NSImage
     let name: String
     let size: String
     let hash: String?

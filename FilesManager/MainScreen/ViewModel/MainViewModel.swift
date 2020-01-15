@@ -6,6 +6,7 @@
 //  Copyright © 2020 Maria Holubieva. All rights reserved.
 //
 
+import Foundation
 import Combine
 
 protocol MainViewModel: AnyObject {
@@ -16,9 +17,17 @@ protocol MainViewModel: AnyObject {
 
     var error: PassthroughSubject<Error?, Never> { get set }
 
+    var isFilesActionsEnabled: CurrentValueSubject<Bool, Never> { get }
+
+    var isOpenPanelShowed: CurrentValueSubject<Bool, Never> { get }
+
     func getFiles()
 
-    func onNeedAddFiles()
+    func startImportFilesAction()
+
+    func endImportFilesAction()
+
+    func addFiles(at urls: [URL])
 
     func onNeedDeleteSelectedFiles()
 
