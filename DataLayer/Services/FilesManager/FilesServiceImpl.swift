@@ -13,7 +13,6 @@ class FilesServiceImpl: FilesService {
     @UserDefault(key: "files_manager_used_files", defaultValue: [])
     private var filesList: [File]
 
-    private let fileManager = FileManager.default
     private lazy var serviceManager = ServiceManager.shared
 
     func getFiles() -> AnyPublisher<[File], Error> {
@@ -21,21 +20,22 @@ class FilesServiceImpl: FilesService {
     }
 
     func add(filesAt urls: [URL]) -> AnyPublisher<Void, Error> {
-        do {
-            let newFilesList = try urls.compactMap { (url: URL) -> File? in
-                guard !filesList.contains(where: { $0.location == url }) else { return nil }
+        let publisher = PassthroughSubject<Void, Error>()
 
-                let attributes = try NSDictionary(dictionary: fileManager.attributesOfItem(atPath: url.path))
-                return File(name: url.lastPathComponent,
-                            size: attributes.fileSize(),
-                            location: url)
+        serviceManager.getAttributesForFiles(at: urls.map({ $0.path })) { [weak self] (attributesList: [NSDictionary]) in
+            guard let self = self else { return }
+
+            var newFilesList = [File]()
+            for i in 0..<attributesList.count {
+                if !self.filesList.contains(where: { $0.location == urls[i] }) {
+                    newFilesList.append(File(name: urls[i].lastPathComponent, size: attributesList[i].fileSize(), location: urls[i]))
+                }
             }
-            filesList.append(contentsOf: newFilesList)
-            return Publishers.Sequence(sequence: [()]).eraseToAnyPublisher()
-
-        } catch {
-            return Publishers.Fail(outputType: Void.self, failure: error).eraseToAnyPublisher()
+            self.filesList.append(contentsOf: newFilesList)
+            publisher.send(())
         }
+
+        return publisher.eraseToAnyPublisher()
     }
 
     func remove(files: [File]) -> AnyPublisher<Void, Error> {
@@ -45,8 +45,16 @@ class FilesServiceImpl: FilesService {
         return Publishers.Sequence(sequence: [()]).eraseToAnyPublisher()
     }
 
-    func duplicate(files: [File]) -> AnyPublisher<[File], Error> {
-        return Publishers.Fail(outputType: [File].self, failure: DataLayerError.notImplemented).eraseToAnyPublisher()
+    func duplicate(files: [File]) -> AnyPublisher<[String], Error> {
+        let publisher = PassthroughSubject<[String], Error>()
+
+        serviceManager.errorHandler = { (error) in
+            publisher.send(completion: Subscribers.Completion<Error>.failure(error))
+        }
+        serviceManager.duplicateFiles(at: files.map({ $0.location.path })) { (newPathes: [String]) in
+            publisher.send(newPathes)
+        }
+        return publisher.eraseToAnyPublisher()
     }
 
     func calculateHash(for files: [File]) -> AnyPublisher<[String], Error> {
@@ -54,7 +62,7 @@ class FilesServiceImpl: FilesService {
         serviceManager.errorHandler = { (error) in
             publisher.send(completion: Subscribers.Completion<Error>.failure(error))
         }
-        serviceManager.calculateHash(for: files) { (hashes: [String]) in
+        serviceManager.calculateHashForFiles(at: files.map({ $0.location.path })) { (hashes: [String]) in
             publisher.send(hashes)
         }
         return publisher.eraseToAnyPublisher()

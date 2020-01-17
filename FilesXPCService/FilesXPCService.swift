@@ -16,18 +16,50 @@ public class FilesXPCService: NSObject, FilesXPCServiceProtocol {
 
     let concurrentQueue = DispatchQueue(label: "com.miserya.Concurrent", attributes: .concurrent)
 
+    public func getAttributesForFiles(at pathes: [String], withReply reply: @escaping ([NSDictionary]) -> Void) {
+
+        var attributesList = [NSDictionary]()
+
+        let dispathchGroup = DispatchGroup()
+        pathes.forEach { (path: String) in
+
+            dispathchGroup.enter()
+            concurrentQueue.async { [weak self] in
+                guard let self = self else { return }
+
+                do {
+                    let attributes = try NSDictionary(dictionary: self.fileManager.attributesOfItem(atPath: path))
+                    attributesList.append(attributes)
+
+                } catch {
+                    print("Cannot copy item \(error.localizedDescription)")
+                }
+
+                dispathchGroup.leave()
+            }
+        }
+
+        dispathchGroup.notify(queue: DispatchQueue.global()) {
+            reply(attributesList)
+        }
+
+    }
+
     public func getHashForFiles(at pathes: [String], withReply reply: @escaping ([String]) -> Void) {
         let url = pathes.compactMap({ URL(fileURLWithPath: $0) })
         var hashes = [String]()
+
         let dispathchGroup = DispatchGroup()
         url.forEach { (url: URL) in
+
             dispathchGroup.enter()
-            concurrentQueue.async { [weak self] in
-                if let hash: String = self?.sha256(url: url)?.map({ String(format: "%02hhx", $0) }).joined() {
+            concurrentQueue.async {
+                if let hash: String = MD5Hasher().sha256(url: url)?.map({ String(format: "%02hhx", $0) }).joined() {
                     hashes.append(hash)
                 } else {
                     hashes.append("")
                 }
+
                 dispathchGroup.leave()
             }
         }
@@ -36,45 +68,37 @@ public class FilesXPCService: NSObject, FilesXPCServiceProtocol {
         }
     }
 
-    func sha256(url: URL) -> Data? {
-        do {
-            let bufferSize = 1024 * 1024
-            // Open file for reading:
-            let file = try FileHandle(forReadingFrom: url)
-            defer {
-                file.closeFile()
-            }
+    public func duplicateFiles(at pathes: [String], withReply reply: @escaping ([String]) -> Void) {
 
-            // Create and initialize SHA256 context:
-            var context = CC_SHA256_CTX()
-            CC_SHA256_Init(&context)
+        var newPathes = [String]()
 
-            // Read up to `bufferSize` bytes, until EOF is reached, and update SHA256 context:
-            while autoreleasepool(invoking: {
-                // Read up to `bufferSize` bytes
-                let data = file.readData(ofLength: bufferSize)
-                if data.count > 0 {
-                    data.withUnsafeBytes {
-                        _ = CC_SHA256_Update(&context, $0, numericCast(data.count))
+        let dispathchGroup = DispatchGroup()
+        pathes.forEach { (path: String) in
+
+            dispathchGroup.enter()
+            concurrentQueue.async { [weak self] in
+                guard let self = self else { return }
+
+                do {
+                    if let url = URL(string: path) {
+                        var newFileName = url.lastPathComponent
+                        if self.fileManager.fileExists(atPath: path) {
+                            newFileName.append("-copy")
+                        }
+                        let destinationURL = url.deletingLastPathComponent().appendingPathExtension(newFileName)
+                        try self.fileManager.copyItem(at: url, to: destinationURL)
+                        newPathes.append(destinationURL.path)
                     }
-                    // Continue
-                    return true
-                } else {
-                    // End of file
-                    return false
+                } catch {
+                    print("Cannot copy item \(error.localizedDescription)")
                 }
-            }) { }
 
-            // Compute the SHA256 digest:
-            var digest = Data(count: Int(CC_SHA256_DIGEST_LENGTH))
-            digest.withUnsafeMutableBytes {
-                _ = CC_SHA256_Final($0, &context)
+                dispathchGroup.leave()
             }
+        }
 
-            return digest
-        } catch {
-            print(error)
-            return nil
+        dispathchGroup.notify(queue: DispatchQueue.global()) {
+            reply(newPathes)
         }
     }
 }

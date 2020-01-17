@@ -16,10 +16,10 @@ protocol FilesService {
 
     func remove(files: [File]) -> AnyPublisher<Void, Error>
 
-    func duplicate(files: [File]) -> AnyPublisher<[File], Error>
+    func duplicate(files: [File]) -> AnyPublisher<[String], Error>
 
     func calculateHash(for files: [File]) -> AnyPublisher<[String], Error>
-    
+
 }
 
 

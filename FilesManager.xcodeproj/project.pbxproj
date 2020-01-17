@@ -20,6 +20,7 @@
 		DE6C0D6B23D1BEC3001D5F37 /* FilesXPCService.xpc in Embed XPC Service */ = {isa = PBXBuildFile; fileRef = DE6C0D3023D085FB001D5F37 /* FilesXPCService.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DE6C0D6E23D1CABF001D5F37 /* FilesXPCService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6C0D6D23D1CABF001D5F37 /* FilesXPCService.swift */; };
 		DE6C0D7023D1D9C7001D5F37 /* ServiceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6C0D6F23D1D9C7001D5F37 /* ServiceDelegate.swift */; };
+		DE6C0D7223D1EBA8001D5F37 /* MD5Hasher.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6C0D7123D1EBA8001D5F37 /* MD5Hasher.swift */; };
 		DE6F135623CC74D3003FE5D0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F135523CC74D3003FE5D0 /* AppDelegate.swift */; };
 		DE6F135823CC74D3003FE5D0 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F135723CC74D3003FE5D0 /* MainViewController.swift */; };
 		DE6F135A23CC74D7003FE5D0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE6F135923CC74D7003FE5D0 /* Assets.xcassets */; };
@@ -44,6 +45,9 @@
 		DE6F13A323CE1D03003FE5D0 /* RemoveFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F13A223CE1D03003FE5D0 /* RemoveFiles.swift */; };
 		DE6F13A623CE1D55003FE5D0 /* NSViewController+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F13A523CE1D55003FE5D0 /* NSViewController+Error.swift */; };
 		DE9BCD7D23CF410E0084D95C /* GetFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9BCD7C23CF410E0084D95C /* GetFiles.swift */; };
+		DEF6221823D1F1A40075C79C /* DuplicateFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF6221723D1F1A40075C79C /* DuplicateFiles.swift */; };
+		DEF6221923D1F3D80075C79C /* UserDefaults+PropertyWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6C0D2823CF5703001D5F37 /* UserDefaults+PropertyWrapper.swift */; };
+		DEF6221C23D1F5070075C79C /* FilesXPCServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF6221B23D1F5070075C79C /* FilesXPCServiceError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -131,6 +135,7 @@
 		DE6C0D6C23D1CABF001D5F37 /* FilesXPCService-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FilesXPCService-Bridging-Header.h"; sourceTree = "<group>"; };
 		DE6C0D6D23D1CABF001D5F37 /* FilesXPCService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesXPCService.swift; sourceTree = "<group>"; };
 		DE6C0D6F23D1D9C7001D5F37 /* ServiceDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceDelegate.swift; sourceTree = "<group>"; };
+		DE6C0D7123D1EBA8001D5F37 /* MD5Hasher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MD5Hasher.swift; sourceTree = "<group>"; };
 		DE6F135223CC74D3003FE5D0 /* FilesManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilesManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE6F135523CC74D3003FE5D0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DE6F135723CC74D3003FE5D0 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -158,6 +163,8 @@
 		DE6F13A223CE1D03003FE5D0 /* RemoveFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveFiles.swift; sourceTree = "<group>"; };
 		DE6F13A523CE1D55003FE5D0 /* NSViewController+Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSViewController+Error.swift"; sourceTree = "<group>"; };
 		DE9BCD7C23CF410E0084D95C /* GetFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFiles.swift; sourceTree = "<group>"; };
+		DEF6221723D1F1A40075C79C /* DuplicateFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuplicateFiles.swift; sourceTree = "<group>"; };
+		DEF6221B23D1F5070075C79C /* FilesXPCServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesXPCServiceError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,9 +205,11 @@
 		DE6C0D3123D085FB001D5F37 /* FilesXPCService */ = {
 			isa = PBXGroup;
 			children = (
+				DE6C0D6D23D1CABF001D5F37 /* FilesXPCService.swift */,
+				DEF6221D23D1F5130075C79C /* Entity */,
+				DEF6221A23D1F3FA0075C79C /* Common */,
 				DE6C0D3623D085FB001D5F37 /* main.m */,
 				DE6C0D3823D085FB001D5F37 /* Info.plist */,
-				DE6C0D6D23D1CABF001D5F37 /* FilesXPCService.swift */,
 				DE6C0D6F23D1D9C7001D5F37 /* ServiceDelegate.swift */,
 				DE6C0D6C23D1CABF001D5F37 /* FilesXPCService-Bridging-Header.h */,
 			);
@@ -364,6 +373,7 @@
 				DE6F139C23CE1B38003FE5D0 /* AddFiles.swift */,
 				DE6F13A223CE1D03003FE5D0 /* RemoveFiles.swift */,
 				DE6C0D4A23D0A6F2001D5F37 /* CalculateHash.swift */,
+				DEF6221723D1F1A40075C79C /* DuplicateFiles.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -383,6 +393,22 @@
 				DE6F13A523CE1D55003FE5D0 /* NSViewController+Error.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		DEF6221A23D1F3FA0075C79C /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				DE6C0D7123D1EBA8001D5F37 /* MD5Hasher.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		DEF6221D23D1F5130075C79C /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				DEF6221B23D1F5070075C79C /* FilesXPCServiceError.swift */,
+			);
+			path = Entity;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -573,6 +599,9 @@
 				DE6C0D3723D085FB001D5F37 /* main.m in Sources */,
 				DE6C0D7023D1D9C7001D5F37 /* ServiceDelegate.swift in Sources */,
 				DE6C0D6E23D1CABF001D5F37 /* FilesXPCService.swift in Sources */,
+				DEF6221923D1F3D80075C79C /* UserDefaults+PropertyWrapper.swift in Sources */,
+				DEF6221C23D1F5070075C79C /* FilesXPCServiceError.swift in Sources */,
+				DE6C0D7223D1EBA8001D5F37 /* MD5Hasher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -613,6 +642,7 @@
 				DE6F139223CDFDB8003FE5D0 /* UseCase.swift in Sources */,
 				DE6F139B23CE1ACF003FE5D0 /* FilesServiceImpl.swift in Sources */,
 				DE6F139923CE1A74003FE5D0 /* File.swift in Sources */,
+				DEF6221823D1F1A40075C79C /* DuplicateFiles.swift in Sources */,
 				DE6C0D4B23D0A6F2001D5F37 /* CalculateHash.swift in Sources */,
 				DE6F13A323CE1D03003FE5D0 /* RemoveFiles.swift in Sources */,
 				DE6F13A123CE1C77003FE5D0 /* DataLayerError.swift in Sources */,

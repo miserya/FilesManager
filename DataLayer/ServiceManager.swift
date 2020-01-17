@@ -45,10 +45,21 @@ class ServiceManager {
         connection.invalidate()
     }
 
-    func calculateHash(for files: [File], completion: @escaping ([String]) -> Void) {
-        let pathes = files.map({ $0.location.path })
+    func getAttributesForFiles(at pathes: [String], completion: @escaping ([NSDictionary]) -> Void) {
+        filesService?.getAttributesForFiles(at: pathes, withReply: { (attributesList: [NSDictionary]) in
+            completion(attributesList)
+        })
+    }
+
+    func calculateHashForFiles(at pathes: [String], completion: @escaping ([String]) -> Void) {
         filesService?.getHashForFiles(at: pathes, withReply: { (hashes: [String]) in
             completion(hashes)
+        })
+    }
+
+    func duplicateFiles(at pathes: [String], completion: @escaping ([String]) -> Void) {
+        filesService?.duplicateFiles(at: pathes, withReply: { (duplicatesPathes: [String]) in
+            completion(duplicatesPathes)
         })
     }
 }
