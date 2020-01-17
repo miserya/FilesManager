@@ -21,4 +21,8 @@ public struct File: Codable {
         self.hash = hash
         self.location = location
     }
+
+    public mutating func update(hash: String) {
+        self = File(name: self.name, size: self.size, location: self.location, hash: hash)
+    }
 }

@@ -10,6 +10,7 @@ import Foundation
 
 public enum DataLayerError: Error {
     case notImplemented
+    case unableToSetupXPCConnection(NSXPCConnection?)
 }
 
 extension DataLayerError: LocalizedError {
@@ -17,6 +18,12 @@ extension DataLayerError: LocalizedError {
         switch self {
         case .notImplemented:
             return "This method isn't implemented"
+
+        case .unableToSetupXPCConnection(let connection):
+            if let connection = connection {
+                return "Unable to set up XPC connection to \(connection)"
+            }
+            return "Unable to set up XPC connection"
         }
     }
 }

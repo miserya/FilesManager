@@ -14,6 +14,7 @@ class FilesServiceImpl: FilesService {
     private var filesList: [File]
 
     private let fileManager = FileManager.default
+    private lazy var serviceManager = ServiceManager.shared
 
     func getFiles() -> AnyPublisher<[File], Error> {
         return Publishers.Sequence(sequence: [filesList]).eraseToAnyPublisher()
@@ -31,7 +32,7 @@ class FilesServiceImpl: FilesService {
             }
             filesList.append(contentsOf: newFilesList)
             return Publishers.Sequence(sequence: [()]).eraseToAnyPublisher()
-            
+
         } catch {
             return Publishers.Fail(outputType: Void.self, failure: error).eraseToAnyPublisher()
         }
@@ -48,8 +49,15 @@ class FilesServiceImpl: FilesService {
         return Publishers.Fail(outputType: [File].self, failure: DataLayerError.notImplemented).eraseToAnyPublisher()
     }
 
-    func calculateHashFunction(for files: [File]) -> AnyPublisher<[File], Error> {
-        return Publishers.Fail(outputType: [File].self, failure: DataLayerError.notImplemented).eraseToAnyPublisher()
+    func calculateHash(for files: [File]) -> AnyPublisher<[String], Error> {
+        let publisher = PassthroughSubject<[String], Error>()
+        serviceManager.errorHandler = { (error) in
+            publisher.send(completion: Subscribers.Completion<Error>.failure(error))
+        }
+        serviceManager.calculateHash(for: files) { (hashes: [String]) in
+            publisher.send(hashes)
+        }
+        return publisher.eraseToAnyPublisher()
     }
 
 }
