@@ -12,7 +12,8 @@ import Combine
 class MainViewControllerImpl: NSViewController, MainViewController {
 
     @IBOutlet weak var tableView: NSTableView!
-
+    @IBOutlet weak var progressIndicator: NSProgressIndicator!
+    
     private var subscriptions = [AnyCancellable]()
 
     private lazy var viewModel: MainViewModel = MainViewModelImpl()
@@ -87,6 +88,16 @@ class MainViewControllerImpl: NSViewController, MainViewController {
                 if value {
                     self?.showOpenPanel()
                 } }
+            .store(in: &subscriptions)
+
+        viewModel.isLoading
+            .sink(receiveValue: { [weak self] (value: Bool) in
+                if value {
+                    self?.progressIndicator.startAnimation(nil)
+                } else {
+                    self?.progressIndicator.stopAnimation(nil)
+                }
+            })
             .store(in: &subscriptions)
     }
 

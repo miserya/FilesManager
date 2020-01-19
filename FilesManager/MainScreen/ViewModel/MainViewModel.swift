@@ -21,6 +21,8 @@ protocol MainViewModel: AnyObject {
 
     var isOpenPanelShowed: CurrentValueSubject<Bool, Never> { get }
 
+    var isLoading: CurrentValueSubject<Bool, Never> { get }
+
     func getFiles()
 
     func startImportFilesAction()

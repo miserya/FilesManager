@@ -11,15 +11,18 @@ import DataLayer
 import Cocoa
 
 class MainViewModelImpl: MainViewModel {
-    var filesViewItems = CurrentValueSubject<[FileViewItem], Never>([])
+
+    private(set) var filesViewItems = CurrentValueSubject<[FileViewItem], Never>([])
     var selectedFilesIndexes: [Int] = [Int]() {
         didSet {
             isFilesActionsEnabled.send(!selectedFilesIndexes.isEmpty) 
         }
     }
     var error = PassthroughSubject<Error?, Never>()
-    var isFilesActionsEnabled = CurrentValueSubject<Bool, Never>(false)
-    var isOpenPanelShowed = CurrentValueSubject<Bool, Never>(false)
+    private(set) var isFilesActionsEnabled = CurrentValueSubject<Bool, Never>(false)
+    private(set) var isOpenPanelShowed = CurrentValueSubject<Bool, Never>(false)
+
+    private(set) var isLoading = CurrentValueSubject<Bool, Never>(false)
 
     private var files = [File]() {
         didSet {
@@ -51,13 +54,17 @@ class MainViewModelImpl: MainViewModel {
 
     func getFiles() {
         getFilesList?.cancel()
+        isLoading.send(true)
+
         getFilesList = getFilesUseCase
             .execute(with: ())
             .sink(receiveCompletion: { [weak self] (completion: Subscribers.Completion<Error>) in
+                self?.isLoading.send(false)
                 if case .failure(let error) = completion {
                     self?.error.send(error)
 
                 } }, receiveValue: { [weak self] (filesList: [File]) in
+                    self?.isLoading.send(false)
                     self?.files = filesList
             })
     }
@@ -71,37 +78,50 @@ class MainViewModelImpl: MainViewModel {
     }
 
     func addFiles(at urls: [URL]) {
+        guard !isLoading.value else { return }
+
         addNewFiles?.cancel()
+        isLoading.send(true)
+
         addNewFiles = addFilesUseCase
             .execute(with: urls)
             .sink(receiveCompletion: { [weak self] (completion: Subscribers.Completion<Error>) in
+                self?.isLoading.send(false)
                 if case .failure(let error) = completion {
                     self?.error.send(error)
 
                 } }, receiveValue: { [weak self] _ in
                     self?.getFiles()
+                    self?.isLoading.send(false)
             })
     }
 
     func onNeedDeleteSelectedFiles() {
+        guard !isLoading.value else { return }
+
         removeFiles?.cancel()
+        isLoading.send(true)
 
         let filesToDelete = selectedFilesIndexes.map({ return files[$0] })
 
         removeFiles = removeFilesUseCase
             .execute(with: filesToDelete)
             .sink(receiveCompletion: { [weak self] (completion: Subscribers.Completion<Error>) in
+                self?.isLoading.send(false)
                 if case .failure(let error) = completion {
                     self?.error.send(error)
 
                 } }, receiveValue: { [weak self] _ in
                     self?.getFiles()
+                    self?.isLoading.send(false)
             })
     }
 
     func onNeedDuplicateSelectedFiles() {
-        duplicateFiles?.cancel()
+        guard !isLoading.value else { return }
 
+        duplicateFiles?.cancel()
+        isLoading.send(true)
         let filesToDuplicate = selectedFilesIndexes.map({ return files[$0] })
 
         duplicateFiles = duplicateFilesUseCase
@@ -110,28 +130,34 @@ class MainViewModelImpl: MainViewModel {
                 return (self?.addFilesUseCase.execute(with: newPathes.compactMap({ return URL(string: $0) })) ?? PassthroughSubject<Void, Error>().eraseToAnyPublisher())
             })
             .sink(receiveCompletion: { [weak self] (completion: Subscribers.Completion<Error>) in
+                self?.isLoading.send(false)
                 if case .failure(let error) = completion {
                     self?.error.send(error)
 
                 } }, receiveValue: { [weak self] _ in
                     self?.getFiles()
+                    self?.isLoading.send(false)
             })
     }
 
     func onNeedCalculateHashForSelectedFiles() {
+        guard !isLoading.value else { return }
+        
         calculateHash?.cancel()
+        isLoading.send(true)
 
         let selectedFilesList = selectedFilesIndexes.map({ return files[$0] })
 
         calculateHash = calculateHashUseCase
             .execute(with: selectedFilesList)
             .sink(receiveCompletion: { [weak self] (completion: Subscribers.Completion<Error>) in
+                self?.isLoading.send(false)
                 if case .failure(let error) = completion {
                 self?.error.send(error)
 
                 } }, receiveValue: { [weak self] (hashes: [String]) in
                     guard let self = self else { return }
-
+                    self.isLoading.send(false)
                     self.applyHashes(hashes, toFilesAt: self.selectedFilesIndexes)
             })
     }

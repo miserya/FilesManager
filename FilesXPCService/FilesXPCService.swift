@@ -20,6 +20,9 @@ public class FilesXPCService: NSObject, FilesXPCServiceProtocol {
 
         var attributesList = [NSDictionary]()
 
+        var total = 100.0
+        let part = total/Double(pathes.count)
+
         let dispathchGroup = DispatchGroup()
         pathes.forEach { (path: String) in
 
@@ -36,6 +39,9 @@ public class FilesXPCService: NSObject, FilesXPCServiceProtocol {
                 }
 
                 dispathchGroup.leave()
+
+                total -= part
+//                progress?(total)
             }
         }
 
@@ -47,6 +53,9 @@ public class FilesXPCService: NSObject, FilesXPCServiceProtocol {
     public func getHashForFiles(at pathes: [String], withReply reply: @escaping ([String]) -> Void) {
         let url = pathes.compactMap({ URL(fileURLWithPath: $0) })
         var hashes = [String]()
+
+        var total = 100.0
+        let part = total/Double(pathes.count)
 
         let dispathchGroup = DispatchGroup()
         url.forEach { (url: URL) in
@@ -60,6 +69,9 @@ public class FilesXPCService: NSObject, FilesXPCServiceProtocol {
                 }
 
                 dispathchGroup.leave()
+
+                total -= part
+//                progress?(total)
             }
         }
         dispathchGroup.notify(queue: DispatchQueue.global()) {
@@ -71,6 +83,9 @@ public class FilesXPCService: NSObject, FilesXPCServiceProtocol {
 
         var newPathes = [String]()
 
+        var total = 100.0
+        let part = total/Double(pathes.count)
+        
         let dispathchGroup = DispatchGroup()
         pathes.forEach { (path: String) in
 
@@ -105,6 +120,9 @@ public class FilesXPCService: NSObject, FilesXPCServiceProtocol {
                 }
 
                 dispathchGroup.leave()
+
+                total -= part
+//                progress?(total)
             }
         }
 
