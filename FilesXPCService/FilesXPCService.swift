@@ -42,7 +42,6 @@ public class FilesXPCService: NSObject, FilesXPCServiceProtocol {
         dispathchGroup.notify(queue: DispatchQueue.global()) {
             reply(attributesList)
         }
-
     }
 
     public func getHashForFiles(at pathes: [String], withReply reply: @escaping ([String]) -> Void) {
@@ -80,15 +79,27 @@ public class FilesXPCService: NSObject, FilesXPCServiceProtocol {
                 guard let self = self else { return }
 
                 do {
-                    if let url = URL(string: path) {
-                        var newFileName = url.lastPathComponent
-                        if self.fileManager.fileExists(atPath: path) {
-                            newFileName.append("-copy")
-                        }
-                        let destinationURL = url.deletingLastPathComponent().appendingPathExtension(newFileName)
-                        try self.fileManager.copyItem(at: url, to: destinationURL)
-                        newPathes.append(destinationURL.path)
+                    let sourceURL = URL(fileURLWithPath: path)
+
+                    let pathExtension = sourceURL.pathExtension
+                    var fileName = sourceURL.lastPathComponent.replacingOccurrences(of: ".\(pathExtension)", with: "")
+
+                    var destinationURL = sourceURL
+                        .deletingLastPathComponent()
+                        .appendingPathComponent(fileName)
+                        .appendingPathExtension(pathExtension)
+                    while self.fileManager.fileExists(atPath: destinationURL.path) {
+                        fileName.append("-copy")
+
+                        destinationURL = sourceURL
+                        .deletingLastPathComponent()
+                        .appendingPathComponent(fileName)
+                        .appendingPathExtension(pathExtension)
                     }
+                    
+                    try self.fileManager.copyItem(at: sourceURL, to: destinationURL)
+                    newPathes.append(destinationURL.path)
+
                 } catch {
                     print("Cannot copy item \(error.localizedDescription)")
                 }

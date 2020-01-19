@@ -32,10 +32,17 @@ class MainViewModelImpl: MainViewModel {
         }
     }
 
+    private let getFilesUseCase = GetFiles()
+    private let addFilesUseCase = AddFiles()
+    private let removeFilesUseCase = RemoveFiles()
+    private let duplicateFilesUseCase = DuplicateFiles()
+    private let calculateHashUseCase = CalculateHash()
+
     private var getFilesList: AnyCancellable?
     private var addNewFiles: AnyCancellable?
     private var removeFiles: AnyCancellable?
     private var calculateHash: AnyCancellable?
+    private var duplicateFiles: AnyCancellable?
 
     init() {
     }
@@ -44,7 +51,7 @@ class MainViewModelImpl: MainViewModel {
 
     func getFiles() {
         getFilesList?.cancel()
-        getFilesList = GetFiles()
+        getFilesList = getFilesUseCase
             .execute(with: ())
             .sink(receiveCompletion: { [weak self] (completion: Subscribers.Completion<Error>) in
                 if case .failure(let error) = completion {
@@ -65,7 +72,7 @@ class MainViewModelImpl: MainViewModel {
 
     func addFiles(at urls: [URL]) {
         addNewFiles?.cancel()
-        addNewFiles = AddFiles()
+        addNewFiles = addFilesUseCase
             .execute(with: urls)
             .sink(receiveCompletion: { [weak self] (completion: Subscribers.Completion<Error>) in
                 if case .failure(let error) = completion {
@@ -81,7 +88,7 @@ class MainViewModelImpl: MainViewModel {
 
         let filesToDelete = selectedFilesIndexes.map({ return files[$0] })
 
-        removeFiles = RemoveFiles()
+        removeFiles = removeFilesUseCase
             .execute(with: filesToDelete)
             .sink(receiveCompletion: { [weak self] (completion: Subscribers.Completion<Error>) in
                 if case .failure(let error) = completion {
@@ -93,7 +100,22 @@ class MainViewModelImpl: MainViewModel {
     }
 
     func onNeedDuplicateSelectedFiles() {
-        debugPrint("TODO")
+        duplicateFiles?.cancel()
+
+        let filesToDuplicate = selectedFilesIndexes.map({ return files[$0] })
+
+        duplicateFiles = duplicateFilesUseCase
+            .execute(with: filesToDuplicate)
+            .flatMap({ [weak self] (newPathes: [String]) in
+                return (self?.addFilesUseCase.execute(with: newPathes.compactMap({ return URL(string: $0) })) ?? PassthroughSubject<Void, Error>().eraseToAnyPublisher())
+            })
+            .sink(receiveCompletion: { [weak self] (completion: Subscribers.Completion<Error>) in
+                if case .failure(let error) = completion {
+                    self?.error.send(error)
+
+                } }, receiveValue: { [weak self] _ in
+                    self?.getFiles()
+            })
     }
 
     func onNeedCalculateHashForSelectedFiles() {
@@ -101,7 +123,7 @@ class MainViewModelImpl: MainViewModel {
 
         let selectedFilesList = selectedFilesIndexes.map({ return files[$0] })
 
-        calculateHash = CalculateHash()
+        calculateHash = calculateHashUseCase
             .execute(with: selectedFilesList)
             .sink(receiveCompletion: { [weak self] (completion: Subscribers.Completion<Error>) in
                 if case .failure(let error) = completion {
