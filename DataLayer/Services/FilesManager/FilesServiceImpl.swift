@@ -22,17 +22,22 @@ class FilesServiceImpl: FilesService {
     func add(filesAt urls: [URL]) -> AnyPublisher<Void, Error> {
         let publisher = PassthroughSubject<Void, Error>()
 
-        serviceManager.getAttributesForFiles(at: urls.map({ $0.path })) { [weak self] (attributesList: [NSDictionary]) in
+        serviceManager.getAttributesForFiles(at: urls.map({ $0.path })) { [weak self] (attributesList: [NSDictionary], error: Error?) in
             guard let self = self else { return }
 
-            var newFilesList = [File]()
-            for i in 0..<attributesList.count {
-                if !self.filesList.contains(where: { $0.location == urls[i] }) {
-                    newFilesList.append(File(name: urls[i].lastPathComponent, size: attributesList[i].fileSize(), location: urls[i]))
+            if let error = error {
+                publisher.send(completion: Subscribers.Completion<Error>.failure(error))
+                
+            } else {
+                var newFilesList = [File]()
+                for i in 0..<attributesList.count {
+                    if !self.filesList.contains(where: { $0.location == urls[i] }) {
+                        newFilesList.append(File(name: urls[i].lastPathComponent, size: attributesList[i].fileSize(), location: urls[i]))
+                    }
                 }
+                self.filesList.append(contentsOf: newFilesList)
+                publisher.send(())
             }
-            self.filesList.append(contentsOf: newFilesList)
-            publisher.send(())
         }
 
         return publisher.eraseToAnyPublisher()
@@ -51,8 +56,13 @@ class FilesServiceImpl: FilesService {
         serviceManager.errorHandler = { (error) in
             publisher.send(completion: Subscribers.Completion<Error>.failure(error))
         }
-        serviceManager.duplicateFiles(at: files.map({ $0.location.path })) { (newPathes: [String]) in
-            publisher.send(newPathes)
+        serviceManager.duplicateFiles(at: files.map({ $0.location.path })) { (newPathes: [String], error: Error?) in
+            if let error = error {
+                publisher.send(completion: Subscribers.Completion<Error>.failure(error))
+
+            } else {
+                publisher.send(newPathes)
+            }
         }
         return publisher.eraseToAnyPublisher()
     }
@@ -62,8 +72,13 @@ class FilesServiceImpl: FilesService {
         serviceManager.errorHandler = { (error) in
             publisher.send(completion: Subscribers.Completion<Error>.failure(error))
         }
-        serviceManager.calculateHashForFiles(at: files.map({ $0.location.path })) { (hashes: [String]) in
-            publisher.send(hashes)
+        serviceManager.calculateHashForFiles(at: files.map({ $0.location.path })) { (hashes: [String], error: Error?) in
+            if let error = error {
+                publisher.send(completion: Subscribers.Completion<Error>.failure(error))
+
+            } else {
+                publisher.send(hashes)
+            }
         }
         return publisher.eraseToAnyPublisher()
     }

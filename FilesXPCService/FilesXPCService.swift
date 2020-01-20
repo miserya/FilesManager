@@ -16,7 +16,7 @@ public class FilesXPCService: NSObject, FilesXPCServiceProtocol {
 
     let concurrentQueue = DispatchQueue(label: "com.miserya.Concurrent", attributes: .concurrent)
 
-    public func getAttributesForFiles(at pathes: [String], withReply reply: @escaping ([NSDictionary]) -> Void) {
+    public func getAttributesForFiles(at pathes: [String], withReply reply: @escaping ([NSDictionary], Error?) -> Void) {
 
         var attributesList = [NSDictionary]()
 
@@ -35,7 +35,7 @@ public class FilesXPCService: NSObject, FilesXPCServiceProtocol {
                     attributesList.append(attributes)
 
                 } catch {
-                    print("Cannot copy item \(error.localizedDescription)")
+                    reply([], error)
                 }
 
                 dispathchGroup.leave()
@@ -46,11 +46,11 @@ public class FilesXPCService: NSObject, FilesXPCServiceProtocol {
         }
 
         dispathchGroup.notify(queue: DispatchQueue.global()) {
-            reply(attributesList)
+            reply(attributesList, nil)
         }
     }
 
-    public func getHashForFiles(at pathes: [String], withReply reply: @escaping ([String]) -> Void) {
+    public func getHashForFiles(at pathes: [String], withReply reply: @escaping ([String], Error?) -> Void) {
         let url = pathes.compactMap({ URL(fileURLWithPath: $0) })
         var hashes = [String]()
 
@@ -65,7 +65,7 @@ public class FilesXPCService: NSObject, FilesXPCServiceProtocol {
                 if let hash: String = MD5Hasher().sha256(url: url)?.map({ String(format: "%02hhx", $0) }).joined() {
                     hashes.append(hash)
                 } else {
-                    hashes.append("")
+                    reply([], FilesXPCServiceError.invalidHash(url.path))
                 }
 
                 dispathchGroup.leave()
@@ -75,11 +75,11 @@ public class FilesXPCService: NSObject, FilesXPCServiceProtocol {
             }
         }
         dispathchGroup.notify(queue: DispatchQueue.global()) {
-            reply(hashes)
+            reply(hashes, nil)
         }
     }
 
-    public func duplicateFiles(at pathes: [String], withReply reply: @escaping ([String]) -> Void) {
+    public func duplicateFiles(at pathes: [String], withReply reply: @escaping ([String], Error?) -> Void) {
 
         var newPathes = [String]()
 
@@ -116,7 +116,7 @@ public class FilesXPCService: NSObject, FilesXPCServiceProtocol {
                     newPathes.append(destinationURL.path)
 
                 } catch {
-                    print("Cannot copy item \(error.localizedDescription)")
+                    reply([], error)
                 }
 
                 dispathchGroup.leave()
@@ -127,7 +127,7 @@ public class FilesXPCService: NSObject, FilesXPCServiceProtocol {
         }
 
         dispathchGroup.notify(queue: DispatchQueue.global()) {
-            reply(newPathes)
+            reply(newPathes, nil)
         }
     }
 }

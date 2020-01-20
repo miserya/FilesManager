@@ -45,21 +45,21 @@ class ServiceManager {
         connection.invalidate()
     }
 
-    func getAttributesForFiles(at pathes: [String], completion: @escaping ([NSDictionary]) -> Void) {
-        filesService?.getAttributesForFiles(at: pathes, withReply: { (attributesList: [NSDictionary]) in
-            completion(attributesList)
+    func getAttributesForFiles(at pathes: [String], completion: @escaping ([NSDictionary], Error?) -> Void) {
+        filesService?.getAttributesForFiles(at: pathes, withReply: { (attributesList: [NSDictionary], error: Error?) in
+            completion(attributesList, error)
         })
     }
 
-    func calculateHashForFiles(at pathes: [String], completion: @escaping ([String]) -> Void) {
-        filesService?.getHashForFiles(at: pathes, withReply: { (hashes: [String]) in
-            completion(hashes)
+    func calculateHashForFiles(at pathes: [String], completion: @escaping ([String], Error?) -> Void) {
+        filesService?.getHashForFiles(at: pathes, withReply: { (hashes: [String], error: Error?) in
+            completion(hashes, error)
         })
     }
 
-    func duplicateFiles(at pathes: [String], completion: @escaping ([String]) -> Void) {
-        filesService?.duplicateFiles(at: pathes, withReply: { (duplicatesPathes: [String]) in
-            completion(duplicatesPathes)
+    func duplicateFiles(at pathes: [String], completion: @escaping ([String], Error?) -> Void) {
+        filesService?.duplicateFiles(at: pathes, withReply: { (duplicatesPathes: [String], error: Error?) in
+            completion(duplicatesPathes, error)
         })
     }
 }

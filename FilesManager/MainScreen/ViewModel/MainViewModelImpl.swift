@@ -127,7 +127,7 @@ class MainViewModelImpl: MainViewModel {
         duplicateFiles = duplicateFilesUseCase
             .execute(with: filesToDuplicate)
             .flatMap({ [weak self] (newPathes: [String]) in
-                return (self?.addFilesUseCase.execute(with: newPathes.compactMap({ return URL(string: $0) })) ?? PassthroughSubject<Void, Error>().eraseToAnyPublisher())
+                return (self?.addFilesUseCase.execute(with: newPathes.compactMap({ return URL(fileURLWithPath: $0) })) ?? PassthroughSubject<Void, Error>().eraseToAnyPublisher())
             })
             .sink(receiveCompletion: { [weak self] (completion: Subscribers.Completion<Error>) in
                 self?.isLoading.send(false)

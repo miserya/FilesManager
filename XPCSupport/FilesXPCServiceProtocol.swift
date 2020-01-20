@@ -10,9 +10,9 @@ import Foundation
 
 @objc public protocol FilesXPCServiceProtocol {
 
-    func getAttributesForFiles(at pathes: [String], withReply reply: @escaping ([NSDictionary]) -> Void)
+    func getAttributesForFiles(at pathes: [String], withReply reply: @escaping ([NSDictionary], Error?) -> Void)
 
-    func getHashForFiles(at pathes: [String], withReply reply: @escaping ([String]) -> Void)
+    func getHashForFiles(at pathes: [String], withReply reply: @escaping ([String], Error?) -> Void)
 
-    func duplicateFiles(at pathes: [String], withReply reply: @escaping ([String]) -> Void)
+    func duplicateFiles(at pathes: [String], withReply reply: @escaping ([String], Error?) -> Void)
 }
