@@ -23,6 +23,8 @@ protocol MainViewModel: AnyObject {
 
     var isLoading: CurrentValueSubject<Bool, Never> { get }
 
+    var progress: Progress { get }
+
     func getFiles()
 
     func startImportFilesAction()

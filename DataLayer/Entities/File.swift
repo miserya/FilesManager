@@ -9,13 +9,15 @@
 import Foundation
 
 public struct File: Codable {
-    
+
+    public let id: String
     public let name: String
     public let size: UInt64
     public let hash: String?
     public let location: URL
 
-    public init(name: String, size: UInt64, location: URL, hash: String? = nil) {
+    public init(id: String, name: String, size: UInt64, location: URL, hash: String? = nil) {
+        self.id = id
         self.name = name
         self.size = size
         self.hash = hash
@@ -23,6 +25,6 @@ public struct File: Codable {
     }
 
     public mutating func update(hash: String) {
-        self = File(name: self.name, size: self.size, location: self.location, hash: hash)
+        self = File(id: self.id, name: self.name, size: self.size, location: self.location, hash: hash)
     }
 }

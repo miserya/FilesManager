@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15400"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -204,13 +204,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="1188" height="409"/>
                         <subviews>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="34" horizontalPageScroll="10" verticalLineScroll="34" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jUc-D6-Gt4">
-                                <rect key="frame" x="20" y="20" width="1148" height="333"/>
+                                <rect key="frame" x="20" y="20" width="1148" height="337"/>
                                 <clipView key="contentView" id="bHe-OE-gXp">
-                                    <rect key="frame" x="1" y="0.0" width="1146" height="332"/>
+                                    <rect key="frame" x="1" y="0.0" width="1146" height="336"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="sequential" alternatingRowBackgroundColors="YES" columnSelection="YES" autosaveColumns="NO" rowHeight="32" rowSizeStyle="automatic" usesAutomaticRowHeights="YES" headerView="WuD-5j-yXI" viewBased="YES" id="wjD-BQ-tCC">
-                                            <rect key="frame" x="20" y="20" width="1146" height="307"/>
+                                            <rect key="frame" x="20" y="20" width="1146" height="311"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -218,7 +218,7 @@
                                             <tableColumns>
                                                 <tableColumn identifier="FileName" width="200" minWidth="200" maxWidth="1000" id="EHu-gx-XjR">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="File name">
-                                                        <font key="font" metaFont="controlContent" size="11"/>
+                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -290,7 +290,7 @@
                                                 </tableColumn>
                                                 <tableColumn identifier="FileSize" width="100" minWidth="40" maxWidth="100" id="Qao-9L-ioo">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="File size">
-                                                        <font key="font" metaFont="controlContent" size="11"/>
+                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -303,7 +303,7 @@
                                                 </tableColumn>
                                                 <tableColumn identifier="FileLocation" width="538" minWidth="100" maxWidth="1000" id="OXy-4N-Jex">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Location">
-                                                        <font key="font" metaFont="controlContent" size="11"/>
+                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -316,7 +316,7 @@
                                                 </tableColumn>
                                                 <tableColumn identifier="FileHash" width="296" minWidth="100" maxWidth="1000" id="bBA-ar-kfw">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Hash">
-                                                        <font key="font" metaFont="controlContent" size="11"/>
+                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -344,8 +344,8 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
-                            <progressIndicator wantsLayer="YES" maxValue="100" displayedWhenStopped="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="VF3-oi-bhm">
-                                <rect key="frame" x="544" y="373" width="100" height="16"/>
+                            <progressIndicator wantsLayer="YES" maxValue="100" displayedWhenStopped="NO" controlSize="small" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="VF3-oi-bhm">
+                                <rect key="frame" x="544" y="377" width="100" height="12"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="5h9-CV-Htp"/>
                                 </constraints>

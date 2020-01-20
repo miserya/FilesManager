@@ -12,7 +12,12 @@ import XPCSupport
 class ServiceDelegate: NSObject, NSXPCListenerDelegate {
 
     func listener(_ listener: NSXPCListener, shouldAcceptNewConnection newConnection: NSXPCConnection) -> Bool {
-        newConnection.exportedInterface = NSXPCInterface(with: FilesXPCServiceProtocol.self)
+        let interface = NSXPCInterface(with: FilesXPCServiceProtocol.self)
+        let inputSet = NSSet(objects: FileEntity.self, NSArray.self, NSString.self) as! Set<AnyHashable>
+        interface.setClasses(inputSet, for: #selector(FilesXPCServiceProtocol.getAttributesForFiles(at:withReply:)), argumentIndex: 0, ofReply: false)
+        interface.setClasses(inputSet, for: #selector(FilesXPCServiceProtocol.getHashForFile(_:withReply:)), argumentIndex: 0, ofReply: false)
+
+        newConnection.exportedInterface = interface
         let exportedObject = FilesXPCService()
         newConnection.exportedObject = exportedObject
         newConnection.resume()

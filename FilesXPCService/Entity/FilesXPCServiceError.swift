@@ -11,6 +11,7 @@ import Foundation
 enum FilesXPCServiceError: Error {
     case invalidPathToFile(String)
     case invalidHash(String)
+    case cancel
 }
 
 extension FilesXPCServiceError: LocalizedError {
@@ -20,6 +21,8 @@ extension FilesXPCServiceError: LocalizedError {
             return "Invalid Path To File \(path)"
         case .invalidHash(let path):
             return "Can't get hash for file at path \(path)"
+        case .cancel:
+            return "Canceled"
         }
     }
 }

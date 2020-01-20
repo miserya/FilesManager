@@ -19,7 +19,7 @@ open class UseCase<Input, Output> {
 
     public func execute(with args: Input) -> AnyPublisher<Output, Error> {
         build(with: args)
-            .subscribe(on: DispatchQueue.global(qos: .userInitiated))
+            .subscribe(on: DispatchQueue.global())
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }

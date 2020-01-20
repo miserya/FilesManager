@@ -18,7 +18,7 @@ protocol FilesService {
 
     func duplicate(files: [File]) -> AnyPublisher<[String], Error>
 
-    func calculateHash(for files: [File]) -> AnyPublisher<[String], Error>
+    func calculateHash(for files: [File], progress: Progress) -> AnyPublisher<[File], Error>
 
 }
 

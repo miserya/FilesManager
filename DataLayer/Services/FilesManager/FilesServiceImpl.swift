@@ -22,20 +22,14 @@ class FilesServiceImpl: FilesService {
     func add(filesAt urls: [URL]) -> AnyPublisher<Void, Error> {
         let publisher = PassthroughSubject<Void, Error>()
 
-        serviceManager.getAttributesForFiles(at: urls.map({ $0.path })) { [weak self] (attributesList: [NSDictionary], error: Error?) in
+        serviceManager.getAttributesForFiles(at: urls.map({ $0.path })) { [weak self] (files: [File], error: Error?) in
             guard let self = self else { return }
 
             if let error = error {
                 publisher.send(completion: Subscribers.Completion<Error>.failure(error))
-                
+
             } else {
-                var newFilesList = [File]()
-                for i in 0..<attributesList.count {
-                    if !self.filesList.contains(where: { $0.location == urls[i] }) {
-                        newFilesList.append(File(name: urls[i].lastPathComponent, size: attributesList[i].fileSize(), location: urls[i]))
-                    }
-                }
-                self.filesList.append(contentsOf: newFilesList)
+                self.filesList.append(contentsOf: files)
                 publisher.send(())
             }
         }
@@ -67,20 +61,34 @@ class FilesServiceImpl: FilesService {
         return publisher.eraseToAnyPublisher()
     }
 
-    func calculateHash(for files: [File]) -> AnyPublisher<[String], Error> {
-        let publisher = PassthroughSubject<[String], Error>()
-        serviceManager.errorHandler = { (error) in
-            publisher.send(completion: Subscribers.Completion<Error>.failure(error))
-        }
-        serviceManager.calculateHashForFiles(at: files.map({ $0.location.path })) { (hashes: [String], error: Error?) in
-            if let error = error {
-                publisher.send(completion: Subscribers.Completion<Error>.failure(error))
+    func calculateHash(for files: [File], progress: Progress) -> AnyPublisher<[File], Error> {
+        progress.totalUnitCount = Int64(files.count)
+        progress.completedUnitCount = 0
+        progress.becomeCurrent(withPendingUnitCount: Int64(files.count))
 
-            } else {
-                publisher.send(hashes)
+        var publishers = [PassthroughSubject<File, Error>]()
+        for file in files {
+            let publisher = PassthroughSubject<File, Error>()
+            publishers.append(publisher)
+            serviceManager.errorHandler = { (error) in
+                publisher.send(completion: Subscribers.Completion<Error>.failure(error))
+            }
+            serviceManager.calculateHashForFile(file) { (file: File?, error: Error?) in
+                if let error = error {
+                    publisher.send(completion: Subscribers.Completion<Error>.failure(error))
+
+                } else if let file = file {
+                    publisher.send(file)
+
+                } else {
+                    publisher.send(completion: Subscribers.Completion<Error>.failure(DataLayerError.unknown))
+                }
+                publisher.send(completion: .finished)
+                progress.completedUnitCount += 1
             }
         }
-        return publisher.eraseToAnyPublisher()
+
+        return Publishers.MergeMany(publishers).collect().eraseToAnyPublisher()
     }
 
 }

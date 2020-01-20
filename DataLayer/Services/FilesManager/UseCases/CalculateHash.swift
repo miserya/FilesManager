@@ -8,11 +8,11 @@
 
 import Combine
 
-final public class CalculateHash: UseCase<[File], [String]> {
+final public class CalculateHash: UseCase<([File], Progress), [File]> {
 
     private let service: FilesService = FilesServiceImpl()
 
-    override func build(with args: [File]) -> AnyPublisher<[String], Error> {
-        return service.calculateHash(for: args)
+    override func build(with args: ([File], Progress)) -> AnyPublisher<[File], Error> {
+        return service.calculateHash(for: args.0, progress: args.1)
     }
 }

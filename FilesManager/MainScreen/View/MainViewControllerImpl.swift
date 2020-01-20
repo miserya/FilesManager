@@ -93,11 +93,29 @@ class MainViewControllerImpl: NSViewController, MainViewController {
         viewModel.isLoading
             .sink(receiveValue: { [weak self] (value: Bool) in
                 if value {
-                    self?.progressIndicator.startAnimation(nil)
+                    self?.progressIndicator.isHidden = false
                 } else {
-                    self?.progressIndicator.stopAnimation(nil)
+                    self?.progressIndicator.isHidden = true
                 }
             })
+            .store(in: &subscriptions)
+
+        viewModel.progress.publisher(for: \.totalUnitCount)
+            .map({ Double($0) })
+            .assign(to: \.maxValue, on: progressIndicator)
+            .store(in: &subscriptions)
+
+        viewModel.progress.publisher(for: \.completedUnitCount)
+            .map({ Double($0) })
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.doubleValue, on: progressIndicator)
+            .store(in: &subscriptions)
+
+        viewModel.progress.publisher(for: \.completedUnitCount)
+            .sink(receiveCompletion: { (completion: Subscribers.Completion<Never>) in
+                debugPrint("Here")
+            }) { (value: Int64) in
+                debugPrint("Here 2 \(value)") }
             .store(in: &subscriptions)
     }
 

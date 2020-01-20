@@ -23,6 +23,7 @@ class MainViewModelImpl: MainViewModel {
     private(set) var isOpenPanelShowed = CurrentValueSubject<Bool, Never>(false)
 
     private(set) var isLoading = CurrentValueSubject<Bool, Never>(false)
+    private(set) var progress = Progress()
 
     private var files = [File]() {
         didSet {
@@ -148,27 +149,31 @@ class MainViewModelImpl: MainViewModel {
 
         let selectedFilesList = selectedFilesIndexes.map({ return files[$0] })
 
+//        progress.totalUnitCount = 0
+//        progress.completedUnitCount = 0
+//        progress.becomeCurrent(withPendingUnitCount: 0)
+
         calculateHash = calculateHashUseCase
-            .execute(with: selectedFilesList)
+            .execute(with: (selectedFilesList, progress))
             .sink(receiveCompletion: { [weak self] (completion: Subscribers.Completion<Error>) in
                 self?.isLoading.send(false)
                 if case .failure(let error) = completion {
                 self?.error.send(error)
 
-                } }, receiveValue: { [weak self] (hashes: [String]) in
+                } }, receiveValue: { [weak self] (filesWithHash: [File]) in
                     guard let self = self else { return }
                     self.isLoading.send(false)
-                    self.applyHashes(hashes, toFilesAt: self.selectedFilesIndexes)
+                    self.applyHashes(filesWithHash, toFilesAt: self.selectedFilesIndexes)
             })
     }
 
     //MARK: - Private
 
-    private func applyHashes(_ hashes: [String], toFilesAt indexes: [Int]) {
+    private func applyHashes(_ filesWithHash: [File], toFilesAt indexes: [Int]) {
         var currentFiles = files
-        for i in 0..<currentFiles.count {
-            if let index = indexes.firstIndex(where: { $0 == i }) {
-                currentFiles[i].update(hash: hashes[index])
+        for file in filesWithHash {
+            if let hash = file.hash, let index = currentFiles.firstIndex(where: { $0.id == file.id }) {
+                currentFiles[index].update(hash: hash)
             }
         }
         files = currentFiles

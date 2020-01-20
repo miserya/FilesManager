@@ -9,6 +9,7 @@
 import Foundation
 
 public enum DataLayerError: Error {
+    case unknown
     case notImplemented
     case unableToSetupXPCConnection(NSXPCConnection?)
 }
@@ -16,6 +17,9 @@ public enum DataLayerError: Error {
 extension DataLayerError: LocalizedError {
     public var errorDescription: String? {
         switch self {
+        case .unknown:
+            return "Unknown error"
+
         case .notImplemented:
             return "This method isn't implemented"
 
