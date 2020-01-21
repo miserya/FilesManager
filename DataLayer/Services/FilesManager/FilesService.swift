@@ -12,13 +12,13 @@ protocol FilesService {
 
     func getFiles() -> AnyPublisher<[File], Error>
 
-    func add(filesAt urls: [URL]) -> AnyPublisher<Void, Error>
+    func add(filesAt urls: [URL], progress: ProgressIndicator?) -> AnyPublisher<Void, Error>
 
-    func remove(files: [File]) -> AnyPublisher<Void, Error>
+    func remove(files: [File], progress: ProgressIndicator?) -> AnyPublisher<Void, Error>
 
-    func duplicate(files: [File]) -> AnyPublisher<[String], Error>
+    func duplicate(files: [File], progress: ProgressIndicator?) -> AnyPublisher<[String], Error>
 
-    func calculateHash(for files: [File], progress: Progress) -> AnyPublisher<[File], Error>
+    func calculateHash(for files: [File], progress: ProgressIndicator?) -> AnyPublisher<[File], Error>
 
 }
 

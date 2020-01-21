@@ -9,7 +9,7 @@
 import Foundation
 import XPCSupport
 
-class GetAttributes: UseCase2<FileEntity, FileAttributes> {
+class GetAttributes: UseCase<FileEntity, FileAttributes> {
 
     private let filesService: FilesService = FilesServiceImpl()
 

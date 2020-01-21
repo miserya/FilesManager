@@ -7,13 +7,12 @@
 //
 
 import Foundation
-import Combine
 
 class Duplicate: UseCase<String, String> {
 
     private let filesService: FilesService = FilesServiceImpl()
 
-    override func build(with args: String) -> CurrentValueSubject<String, Error> {
+    override func build(with args: String) -> Result<String, Error> {
         return filesService.duplicateFile(at: args)
     }
 }

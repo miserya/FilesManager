@@ -9,11 +9,11 @@
 import Foundation
 import XPCSupport
 
-class CalculateHash {//: UseCase2<FileEntity, FileHash> {
+class CalculateHash: UseCase<FileEntity, FileHash> {
 
     private let filesService: FilesService = FilesServiceImpl()
 
-    func build(with args: FileEntity) -> Result<FileHash, Error> {
+    override func build(with args: FileEntity) -> Result<FileHash, Error> {
         return filesService.calculateHashForFile(args)
     }
 }

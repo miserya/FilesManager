@@ -23,7 +23,9 @@ protocol MainViewModel: AnyObject {
 
     var isLoading: CurrentValueSubject<Bool, Never> { get }
 
-    var progress: Progress { get }
+    var progressMaxValue: CurrentValueSubject<Double, Never> { get }
+
+    var progressValue: CurrentValueSubject<Double, Never> { get }
 
     func getFiles()
 

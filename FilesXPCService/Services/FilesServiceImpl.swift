@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Combine
 import XPCSupport
 
 class FilesServiceImpl: FilesService {
@@ -26,9 +25,7 @@ class FilesServiceImpl: FilesService {
         }
     }
 
-    func duplicateFile(at path: String) -> CurrentValueSubject<String, Error> {
-        let publisher = CurrentValueSubject<String, Error>("")
-
+    func duplicateFile(at path: String) -> Result<String, Error> {
         do {
             let sourceURL = URL(fileURLWithPath: path)
 
@@ -49,13 +46,11 @@ class FilesServiceImpl: FilesService {
             }
 
             try self.fileManager.copyItem(at: sourceURL, to: destinationURL)
-            publisher.send(destinationURL.path)
+            return .success(destinationURL.path)
 
         } catch {
-            publisher.send(completion: Subscribers.Completion<Error>.failure(error))
+            return .failure(error)
         }
-
-        return publisher
     }
 
     func calculateHashForFile(_ file: FileEntity) -> Result<FileHash, Error> {

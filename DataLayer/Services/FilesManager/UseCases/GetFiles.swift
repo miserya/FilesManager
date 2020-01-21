@@ -12,7 +12,7 @@ final public class GetFiles: UseCase<Void, [File]> {
 
     private let service: FilesService = FilesServiceImpl()
 
-    override func build(with args: Void) -> AnyPublisher<[File], Error> {
+    override func build(with args: Void, progress: ProgressIndicator?) -> AnyPublisher<[File], Error> {
         return service.getFiles()
     }
 }

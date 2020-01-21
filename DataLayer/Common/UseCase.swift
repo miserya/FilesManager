@@ -13,12 +13,12 @@ open class UseCase<Input, Output> {
     public init() {
     }
 
-    func build(with args: Input) -> AnyPublisher<Output, Error> {
+    func build(with args: Input, progress: ProgressIndicator?) -> AnyPublisher<Output, Error> {
         preconditionFailure("Must be overridden!")
     }
 
-    public func execute(with args: Input) -> AnyPublisher<Output, Error> {
-        build(with: args)
+    public func execute(with args: Input, progress: ProgressIndicator? = nil) -> AnyPublisher<Output, Error> {
+        build(with: args, progress: progress)
             .subscribe(on: DispatchQueue.global())
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()

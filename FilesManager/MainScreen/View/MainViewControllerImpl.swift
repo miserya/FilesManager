@@ -100,22 +100,15 @@ class MainViewControllerImpl: NSViewController, MainViewController {
             })
             .store(in: &subscriptions)
 
-        viewModel.progress.publisher(for: \.totalUnitCount)
-            .map({ Double($0) })
+        viewModel.progressMaxValue
             .assign(to: \.maxValue, on: progressIndicator)
             .store(in: &subscriptions)
 
-        viewModel.progress.publisher(for: \.completedUnitCount)
-            .map({ Double($0) })
-            .receive(on: DispatchQueue.main)
-            .assign(to: \.doubleValue, on: progressIndicator)
-            .store(in: &subscriptions)
-
-        viewModel.progress.publisher(for: \.completedUnitCount)
-            .sink(receiveCompletion: { (completion: Subscribers.Completion<Never>) in
-                debugPrint("Here")
-            }) { (value: Int64) in
-                debugPrint("Here 2 \(value)") }
+        viewModel.progressValue
+            .receive(on: DispatchQueue.main).sink(receiveValue: { [weak self] (value: Double) in
+                guard let self = self else { return }
+                self.progressIndicator.increment(by: value - self.progressIndicator.doubleValue)
+            })
             .store(in: &subscriptions)
     }
 

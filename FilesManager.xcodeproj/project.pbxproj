@@ -53,6 +53,8 @@
 		DE8868FF23D5CDD200BC91FE /* FileEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8868FE23D5CDD200BC91FE /* FileEntity.swift */; };
 		DE88690223D5D86500BC91FE /* FileAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE88690123D5D86500BC91FE /* FileAttributes.swift */; };
 		DE88690423D5EB1100BC91FE /* FileHash.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE88690323D5EB1100BC91FE /* FileHash.swift */; };
+		DE88690623D6EAA000BC91FE /* FilesXPCProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE88690523D6EAA000BC91FE /* FilesXPCProgress.swift */; };
+		DE88690823D6F20E00BC91FE /* ProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE88690723D6F20E00BC91FE /* ProgressIndicator.swift */; };
 		DE9BCD7D23CF410E0084D95C /* GetFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9BCD7C23CF410E0084D95C /* GetFiles.swift */; };
 		DEF6221823D1F1A40075C79C /* DuplicateFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF6221723D1F1A40075C79C /* DuplicateFiles.swift */; };
 		DEF6221923D1F3D80075C79C /* UserDefaults+PropertyWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6C0D2823CF5703001D5F37 /* UserDefaults+PropertyWrapper.swift */; };
@@ -180,6 +182,8 @@
 		DE8868FE23D5CDD200BC91FE /* FileEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileEntity.swift; sourceTree = "<group>"; };
 		DE88690123D5D86500BC91FE /* FileAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileAttributes.swift; sourceTree = "<group>"; };
 		DE88690323D5EB1100BC91FE /* FileHash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileHash.swift; sourceTree = "<group>"; };
+		DE88690523D6EAA000BC91FE /* FilesXPCProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesXPCProgress.swift; sourceTree = "<group>"; };
+		DE88690723D6F20E00BC91FE /* ProgressIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressIndicator.swift; sourceTree = "<group>"; };
 		DE9BCD7C23CF410E0084D95C /* GetFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFiles.swift; sourceTree = "<group>"; };
 		DEF6221723D1F1A40075C79C /* DuplicateFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuplicateFiles.swift; sourceTree = "<group>"; };
 		DEF6221B23D1F5070075C79C /* FilesXPCServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesXPCServiceError.swift; sourceTree = "<group>"; };
@@ -242,6 +246,7 @@
 				DE6C0D5323D1B496001D5F37 /* XPCSupport.h */,
 				DE6C0D5423D1B496001D5F37 /* Info.plist */,
 				DE6C0D5D23D1B4CA001D5F37 /* FilesXPCServiceProtocol.swift */,
+				DE88690523D6EAA000BC91FE /* FilesXPCProgress.swift */,
 			);
 			path = XPCSupport;
 			sourceTree = "<group>";
@@ -403,6 +408,7 @@
 			children = (
 				DE6F136723CCAD14003FE5D0 /* File.swift */,
 				DE6F13A023CE1C77003FE5D0 /* DataLayerError.swift */,
+				DE88690723D6F20E00BC91FE /* ProgressIndicator.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -667,6 +673,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE8868FF23D5CDD200BC91FE /* FileEntity.swift in Sources */,
+				DE88690623D6EAA000BC91FE /* FilesXPCProgress.swift in Sources */,
 				DE88690423D5EB1100BC91FE /* FileHash.swift in Sources */,
 				DE6C0D5E23D1B4CA001D5F37 /* FilesXPCServiceProtocol.swift in Sources */,
 				DE88690223D5D86500BC91FE /* FileAttributes.swift in Sources */,
@@ -694,6 +701,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE88690823D6F20E00BC91FE /* ProgressIndicator.swift in Sources */,
 				DE6C0D4923D0A3C6001D5F37 /* ServiceManager.swift in Sources */,
 				DE9BCD7D23CF410E0084D95C /* GetFiles.swift in Sources */,
 				DE6F139F23CE1C42003FE5D0 /* Publishers+Fail.swift in Sources */,

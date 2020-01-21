@@ -10,6 +10,8 @@ import Foundation
 
 public class FileAttributes: NSObject, NSSecureCoding {
 
+    public static var empty = FileAttributes(id: "", attributes: NSDictionary())
+
     private enum CodingKeys: String {
         case id = "id"
         case attributes = "attributes"

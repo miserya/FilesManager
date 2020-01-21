@@ -12,7 +12,7 @@ final public class AddFiles: UseCase<[URL], Void> {
 
     private let service: FilesService = FilesServiceImpl()
 
-    override func build(with args: [URL]) -> AnyPublisher<Void, Error> {
-        return service.add(filesAt: args)
+    override func build(with args: [URL], progress: ProgressIndicator?) -> AnyPublisher<Void, Error> {
+        return service.add(filesAt: args, progress: progress)
     }
 }

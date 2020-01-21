@@ -9,20 +9,24 @@
 import Foundation
 import XPCSupport
 
-class ServiceManager {
+class ServiceManager: FilesXPCProgress {
+
     static var shared = ServiceManager()
 
     var errorHandler: ((Error) -> Void)?
+    var updateProgress: ((Double) -> Void)?
 
     private var filesService: FilesXPCServiceProtocol?
     private lazy var connection: NSXPCConnection = {
         let interface = NSXPCInterface(with: FilesXPCServiceProtocol.self)
         let outputSet = NSSet(objects: FileHash.self, FileAttributes.self, NSData.self, NSDate.self, NSDictionary.self, NSNumber.self, NSNull.self, NSOrderedSet.self, NSSet.self, NSArray.self, NSString.self) as! Set<AnyHashable>
         interface.setClasses(outputSet, for: #selector(FilesXPCServiceProtocol.getAttributesForFiles(at:withReply:)), argumentIndex: 0, ofReply: true)
-        interface.setClasses(outputSet, for: #selector(FilesXPCServiceProtocol.getHashForFile(_:withReply:)), argumentIndex: 0, ofReply: true)
+        interface.setClasses(outputSet, for: #selector(FilesXPCServiceProtocol.getHashForFiles(_:withReply:)), argumentIndex: 0, ofReply: true)
 
         let connection = NSXPCConnection(serviceName: "com.miserya.FilesXPCService")
         connection.remoteObjectInterface = interface
+        connection.exportedInterface = NSXPCInterface(with: FilesXPCProgress.self)
+        connection.exportedObject = self
         return connection
     }()
 
@@ -66,17 +70,21 @@ class ServiceManager {
         })
     }
 
-//    func calculateHashForFiles(at pathes: [String], completion: @escaping ([String], Error?) -> Void) {
-//        filesService?.getHashForFiles(at: pathes, withReply: { (hashes: [String], error: Error?) in
-//            completion(hashes, error)
-//        })
-//    }
+    func calculateHashForFiles(_ files: [File], completion: @escaping ([File], Error?) -> Void) {
+        let args = files.map({ FileEntity(id: $0.id, path: $0.location.path) })
+        filesService?.getHashForFiles(args, withReply: { (hashes: [FileHash], error: Error?) in
+            if let error = error {
+                completion([], error)
 
-    func calculateHashForFile(_ file: File, completion: @escaping (File?, Error?) -> Void) {
-        filesService?.getHashForFile(FileEntity(id: file.id, path: file.location.path), withReply: { (hash: FileHash?, error: Error?) in
-            var fileCopy = file
-            fileCopy.update(hash: hash?.md5Hash ?? "")
-            completion(fileCopy, error)
+            } else {
+                var filesCopy = files
+                for hash in hashes {
+                    if let index = filesCopy.firstIndex(where: { $0.id == hash.id }) {
+                        filesCopy[index].update(hash: hash.md5Hash)
+                    }
+                }
+                completion(filesCopy, nil)
+            }
         })
     }
 
@@ -84,5 +92,15 @@ class ServiceManager {
         filesService?.duplicateFiles(at: pathes, withReply: { (duplicatesPathes: [String], error: Error?) in
             completion(duplicatesPathes, error)
         })
+    }
+
+    //MARK: - FilesXPCProgress
+
+    func updateProgress(_ currentProgress: Double) {
+        updateProgress?(currentProgress)
+    }
+
+    func finished() {
+        updateProgress?(100.0)
     }
 }

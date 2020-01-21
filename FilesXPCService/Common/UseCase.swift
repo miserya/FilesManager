@@ -16,39 +16,30 @@ open class UseCase<Input, Output> {
     public init() {
     }
 
-    func build(with args: Input) -> CurrentValueSubject<Output, Error> {
-        preconditionFailure("Must be overridden!")
-    }
-
-    public func execute(with args: Input) -> CurrentValueSubject<Output, Error> {
-        return build(with: args)
-//            .subscribe(on: DispatchQueue.global(qos: .userInitiated))
-//            .receive(on: DispatchQueue.global(qos: .userInitiated))
-//            .eraseToAnyPublisher()
-    }
-}
-
-open class UseCase2<Input, Output> {
-
-    let concurrentQueue = DispatchQueue.global()//(label: "com.miserya.Concurrent", attributes: .concurrent)
-
-    public init() {
-    }
-
     func build(with args: Input) -> Result<Output, Error> {
         preconditionFailure("Must be overridden!")
     }
 
-    public func execute(with args: Input, dispatchGroup: DispatchGroup, completion: @escaping ((Result<Output, Error>) -> Void)) {
-        dispatchGroup.enter()
-        concurrentQueue.async { [weak self] in
-            guard let self = self else { dispatchGroup.leave(); return }
-            let result = self.build(with: args)
-            completion(result)
-            dispatchGroup.leave()
+    public func execute(with args: Input) -> AnyPublisher<Output, Error> {
+        let publisher = PassthroughSubject<Output, Error>()
+
+        DispatchQueue.global().async { [weak self] in
+            let result = self?.build(with: args)
+
+            switch result {
+            case .success(let successResult)?:
+                publisher.send(successResult)
+                publisher.send(completion: .finished)
+
+            case .failure(let error)?:
+                publisher.send(completion: .failure(error))
+                publisher.send(completion: .finished)
+
+            default:
+                publisher.send(completion: .finished)
+            }
         }
-        //            .subscribe(on: DispatchQueue.global(qos: .userInitiated))
-        //            .receive(on: DispatchQueue.global(qos: .userInitiated))
-        //            .eraseToAnyPublisher()
+
+        return publisher.eraseToAnyPublisher()
     }
 }

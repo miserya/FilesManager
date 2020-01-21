@@ -12,7 +12,7 @@ import Foundation
 
     func getAttributesForFiles(at pathes: [FileEntity], withReply reply: @escaping ([FileAttributes], Error?) -> Void)
 
-    func getHashForFile(_ file: FileEntity, withReply reply: @escaping (FileHash?, Error?) -> Void)
+    func getHashForFiles(_ files: [FileEntity], withReply reply: @escaping ([FileHash], Error?) -> Void)
 
     func duplicateFiles(at pathes: [String], withReply reply: @escaping ([String], Error?) -> Void)
 }

@@ -23,7 +23,9 @@ class MainViewModelImpl: MainViewModel {
     private(set) var isOpenPanelShowed = CurrentValueSubject<Bool, Never>(false)
 
     private(set) var isLoading = CurrentValueSubject<Bool, Never>(false)
-    private(set) var progress = Progress()
+    private(set) var progressMaxValue = CurrentValueSubject<Double, Never>(100)
+    private(set) var progressValue = CurrentValueSubject<Double, Never>(0)
+    private let progressIndicator = ProgressIndicator()
 
     private var files = [File]() {
         didSet {
@@ -48,7 +50,13 @@ class MainViewModelImpl: MainViewModel {
     private var calculateHash: AnyCancellable?
     private var duplicateFiles: AnyCancellable?
 
+    private var subscriptions = [AnyCancellable]()
+
     init() {
+        progressIndicator.$currentProgress
+            .sink(receiveCompletion: { _ in }) { [weak self] (value: Double) in
+                self?.progressValue.send(value) }
+            .store(in: &subscriptions)
     }
 
     //MARK: - MainViewModel
@@ -82,10 +90,11 @@ class MainViewModelImpl: MainViewModel {
         guard !isLoading.value else { return }
 
         addNewFiles?.cancel()
+        progressIndicator.reset()
         isLoading.send(true)
 
         addNewFiles = addFilesUseCase
-            .execute(with: urls)
+            .execute(with: urls, progress: progressIndicator)
             .sink(receiveCompletion: { [weak self] (completion: Subscribers.Completion<Error>) in
                 self?.isLoading.send(false)
                 if case .failure(let error) = completion {
@@ -101,12 +110,13 @@ class MainViewModelImpl: MainViewModel {
         guard !isLoading.value else { return }
 
         removeFiles?.cancel()
+        progressIndicator.reset()
         isLoading.send(true)
 
         let filesToDelete = selectedFilesIndexes.map({ return files[$0] })
 
         removeFiles = removeFilesUseCase
-            .execute(with: filesToDelete)
+            .execute(with: filesToDelete, progress: progressIndicator)
             .sink(receiveCompletion: { [weak self] (completion: Subscribers.Completion<Error>) in
                 self?.isLoading.send(false)
                 if case .failure(let error) = completion {
@@ -122,11 +132,12 @@ class MainViewModelImpl: MainViewModel {
         guard !isLoading.value else { return }
 
         duplicateFiles?.cancel()
+        progressIndicator.reset()
         isLoading.send(true)
         let filesToDuplicate = selectedFilesIndexes.map({ return files[$0] })
 
         duplicateFiles = duplicateFilesUseCase
-            .execute(with: filesToDuplicate)
+            .execute(with: filesToDuplicate, progress: progressIndicator)
             .flatMap({ [weak self] (newPathes: [String]) in
                 return (self?.addFilesUseCase.execute(with: newPathes.compactMap({ return URL(fileURLWithPath: $0) })) ?? PassthroughSubject<Void, Error>().eraseToAnyPublisher())
             })
@@ -145,16 +156,13 @@ class MainViewModelImpl: MainViewModel {
         guard !isLoading.value else { return }
         
         calculateHash?.cancel()
+        progressIndicator.reset()
         isLoading.send(true)
 
         let selectedFilesList = selectedFilesIndexes.map({ return files[$0] })
 
-//        progress.totalUnitCount = 0
-//        progress.completedUnitCount = 0
-//        progress.becomeCurrent(withPendingUnitCount: 0)
-
         calculateHash = calculateHashUseCase
-            .execute(with: (selectedFilesList, progress))
+            .execute(with: selectedFilesList, progress: progressIndicator)
             .sink(receiveCompletion: { [weak self] (completion: Subscribers.Completion<Error>) in
                 self?.isLoading.send(false)
                 if case .failure(let error) = completion {

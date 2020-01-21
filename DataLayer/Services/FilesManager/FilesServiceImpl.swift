@@ -19,9 +19,15 @@ class FilesServiceImpl: FilesService {
         return Publishers.Sequence(sequence: [filesList]).eraseToAnyPublisher()
     }
 
-    func add(filesAt urls: [URL]) -> AnyPublisher<Void, Error> {
+    func add(filesAt urls: [URL], progress: ProgressIndicator?) -> AnyPublisher<Void, Error> {
         let publisher = PassthroughSubject<Void, Error>()
 
+        serviceManager.updateProgress = { [weak progress = progress] (value) in
+            progress?.currentProgress = value
+        }
+        serviceManager.errorHandler = { (error) in
+            publisher.send(completion: Subscribers.Completion<Error>.failure(error))
+        }
         serviceManager.getAttributesForFiles(at: urls.map({ $0.path })) { [weak self] (files: [File], error: Error?) in
             guard let self = self else { return }
 
@@ -37,16 +43,28 @@ class FilesServiceImpl: FilesService {
         return publisher.eraseToAnyPublisher()
     }
 
-    func remove(files: [File]) -> AnyPublisher<Void, Error> {
+    func remove(files: [File], progress: ProgressIndicator?) -> AnyPublisher<Void, Error> {
+        var deletedFilesCount: Double = 0
         filesList.removeAll { (file: File) -> Bool in
-            files.contains(where: { $0.location == file.location })
+            return files.contains(where: { [weak progress = progress] (fileToDelete: File) in
+                if fileToDelete.location == file.location {
+                    deletedFilesCount += 1
+                    progress?.currentProgress = (deletedFilesCount/Double(files.count))*100.0
+                    return true
+                }
+                return false
+            })
         }
+
         return Publishers.Sequence(sequence: [()]).eraseToAnyPublisher()
     }
 
-    func duplicate(files: [File]) -> AnyPublisher<[String], Error> {
+    func duplicate(files: [File], progress: ProgressIndicator?) -> AnyPublisher<[String], Error> {
         let publisher = PassthroughSubject<[String], Error>()
 
+        serviceManager.updateProgress = { [weak progress = progress] (value) in
+            progress?.currentProgress = value
+        }
         serviceManager.errorHandler = { (error) in
             publisher.send(completion: Subscribers.Completion<Error>.failure(error))
         }
@@ -61,34 +79,26 @@ class FilesServiceImpl: FilesService {
         return publisher.eraseToAnyPublisher()
     }
 
-    func calculateHash(for files: [File], progress: Progress) -> AnyPublisher<[File], Error> {
-        progress.totalUnitCount = Int64(files.count)
-        progress.completedUnitCount = 0
-        progress.becomeCurrent(withPendingUnitCount: Int64(files.count))
+    func calculateHash(for files: [File], progress: ProgressIndicator?) -> AnyPublisher<[File], Error> {
 
-        var publishers = [PassthroughSubject<File, Error>]()
-        for file in files {
-            let publisher = PassthroughSubject<File, Error>()
-            publishers.append(publisher)
-            serviceManager.errorHandler = { (error) in
+        let publisher = PassthroughSubject<[File], Error>()
+
+        serviceManager.updateProgress = { [weak progress = progress] (value) in
+            progress?.currentProgress = value
+        }
+        serviceManager.errorHandler = { (error) in
+            publisher.send(completion: Subscribers.Completion<Error>.failure(error))
+        }
+        serviceManager.calculateHashForFiles(files) { (updatedFiles: [File], error: Error?) in
+            if let error = error {
                 publisher.send(completion: Subscribers.Completion<Error>.failure(error))
-            }
-            serviceManager.calculateHashForFile(file) { (file: File?, error: Error?) in
-                if let error = error {
-                    publisher.send(completion: Subscribers.Completion<Error>.failure(error))
 
-                } else if let file = file {
-                    publisher.send(file)
-
-                } else {
-                    publisher.send(completion: Subscribers.Completion<Error>.failure(DataLayerError.unknown))
-                }
-                publisher.send(completion: .finished)
-                progress.completedUnitCount += 1
+            } else {
+                publisher.send(updatedFiles)
             }
         }
 
-        return Publishers.MergeMany(publishers).collect().eraseToAnyPublisher()
+        return publisher.eraseToAnyPublisher()
     }
 
 }
