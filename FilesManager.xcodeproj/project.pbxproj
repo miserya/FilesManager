@@ -45,6 +45,8 @@
 		DE6F13A323CE1D03003FE5D0 /* RemoveFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F13A223CE1D03003FE5D0 /* RemoveFiles.swift */; };
 		DE6F13A623CE1D55003FE5D0 /* NSViewController+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6F13A523CE1D55003FE5D0 /* NSViewController+Error.swift */; };
 		DE7769EA23D71264001E2CD6 /* ToolbarAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7769E923D71264001E2CD6 /* ToolbarAdapter.swift */; };
+		DE7769EC23D718E4001E2CD6 /* MainViewModelStateStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7769EB23D718E4001E2CD6 /* MainViewModelStateStorage.swift */; };
+		DE7769EF23D719AB001E2CD6 /* FilesDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7769EE23D719AB001E2CD6 /* FilesDataMapper.swift */; };
 		DE8868F223D58F5200BC91FE /* UseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8868F123D58F5200BC91FE /* UseCase.swift */; };
 		DE8868F423D58FD100BC91FE /* GetAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8868F323D58FD100BC91FE /* GetAttributes.swift */; };
 		DE8868F723D5921B00BC91FE /* FilesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8868F623D5921B00BC91FE /* FilesService.swift */; };
@@ -175,6 +177,8 @@
 		DE6F13A223CE1D03003FE5D0 /* RemoveFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveFiles.swift; sourceTree = "<group>"; };
 		DE6F13A523CE1D55003FE5D0 /* NSViewController+Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSViewController+Error.swift"; sourceTree = "<group>"; };
 		DE7769E923D71264001E2CD6 /* ToolbarAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarAdapter.swift; sourceTree = "<group>"; };
+		DE7769EB23D718E4001E2CD6 /* MainViewModelStateStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModelStateStorage.swift; sourceTree = "<group>"; };
+		DE7769EE23D719AB001E2CD6 /* FilesDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesDataMapper.swift; sourceTree = "<group>"; };
 		DE8868F123D58F5200BC91FE /* UseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCase.swift; sourceTree = "<group>"; };
 		DE8868F323D58FD100BC91FE /* GetAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAttributes.swift; sourceTree = "<group>"; };
 		DE8868F623D5921B00BC91FE /* FilesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesService.swift; sourceTree = "<group>"; };
@@ -318,6 +322,7 @@
 		DE6F136D23CDB561003FE5D0 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				DE7769ED23D71999001E2CD6 /* StateStorage */,
 				DE6F136923CCAE2D003FE5D0 /* MainViewModel.swift */,
 				DE6F136F23CDB57C003FE5D0 /* MainViewModelImpl.swift */,
 			);
@@ -430,6 +435,15 @@
 				DE7769E923D71264001E2CD6 /* ToolbarAdapter.swift */,
 			);
 			path = ToolbarAdapter;
+			sourceTree = "<group>";
+		};
+		DE7769ED23D71999001E2CD6 /* StateStorage */ = {
+			isa = PBXGroup;
+			children = (
+				DE7769EE23D719AB001E2CD6 /* FilesDataMapper.swift */,
+				DE7769EB23D718E4001E2CD6 /* MainViewModelStateStorage.swift */,
+			);
+			path = StateStorage;
 			sourceTree = "<group>";
 		};
 		DE8868F023D58F3200BC91FE /* UseCases */ = {
@@ -699,7 +713,9 @@
 				DE6F13A623CE1D55003FE5D0 /* NSViewController+Error.swift in Sources */,
 				DE6F137823CDB740003FE5D0 /* MainFileNameCell.swift in Sources */,
 				DE6F135823CC74D3003FE5D0 /* MainViewController.swift in Sources */,
+				DE7769EF23D719AB001E2CD6 /* FilesDataMapper.swift in Sources */,
 				DE6F136C23CCB057003FE5D0 /* FileViewItem.swift in Sources */,
+				DE7769EC23D718E4001E2CD6 /* MainViewModelStateStorage.swift in Sources */,
 				DE6F137223CDB5C5003FE5D0 /* MainViewControllerImpl.swift in Sources */,
 				DE6F137023CDB57C003FE5D0 /* MainViewModelImpl.swift in Sources */,
 				DE6F135623CC74D3003FE5D0 /* AppDelegate.swift in Sources */,

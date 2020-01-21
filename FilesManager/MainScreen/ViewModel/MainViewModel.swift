@@ -13,8 +13,6 @@ protocol MainViewModel: AnyObject {
 
     var filesViewItems: CurrentValueSubject<[FileViewItem], Never> { get }
 
-    var selectedFilesIndexes: [Int] { get set }
-
     var error: PassthroughSubject<Error?, Never> { get set }
 
     var isFilesActionsEnabled: CurrentValueSubject<Bool, Never> { get }
@@ -26,6 +24,8 @@ protocol MainViewModel: AnyObject {
     var progressMaxValue: CurrentValueSubject<Double, Never> { get }
 
     var progressValue: CurrentValueSubject<Double, Never> { get }
+
+    func setSelectedFilesIndexes( _ newIndexes: [Int])
 
     func getFiles()
 

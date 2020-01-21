@@ -68,7 +68,8 @@ class MainViewControllerImpl: NSViewController, MainViewController, NSToolbarIte
             .store(in: &subscriptions)
 
         adapter.$selectedFilesIndexes
-            .assign(to: \.selectedFilesIndexes, on: viewModel)
+            .sink(receiveValue: { [weak self] (newIndexes: [Int]) in
+                self?.viewModel.setSelectedFilesIndexes(newIndexes) })
             .store(in: &subscriptions)
 
         viewModel.error

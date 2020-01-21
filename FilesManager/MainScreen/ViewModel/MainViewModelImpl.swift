@@ -12,31 +12,19 @@ import Cocoa
 
 class MainViewModelImpl: MainViewModel {
 
-    private(set) var filesViewItems = CurrentValueSubject<[FileViewItem], Never>([])
-    var selectedFilesIndexes: [Int] = [Int]() {
-        didSet {
-            isFilesActionsEnabled.send(!selectedFilesIndexes.isEmpty) 
-        }
-    }
     var error = PassthroughSubject<Error?, Never>()
+
+    private(set) var filesViewItems = CurrentValueSubject<[FileViewItem], Never>([])
     private(set) var isFilesActionsEnabled = CurrentValueSubject<Bool, Never>(false)
     private(set) var isOpenPanelShowed = CurrentValueSubject<Bool, Never>(false)
 
     private(set) var isLoading = CurrentValueSubject<Bool, Never>(false)
     private(set) var progressMaxValue = CurrentValueSubject<Double, Never>(100)
     private(set) var progressValue = CurrentValueSubject<Double, Never>(0)
+
     private let progressIndicator = ProgressIndicator()
 
-    private var files = [File]() {
-        didSet {
-            filesViewItems.send(files.map({
-                FileViewItem(image: NSWorkspace.shared.icon(forFile: $0.location.path),
-                             name: $0.name,
-                             size: ByteCountFormatter().string(fromByteCount: Int64($0.size)),
-                             hash: $0.hash,
-                             location: $0.location.path) }))
-        }
-    }
+    private let stateStorage = MainViewModelStateStorage()
 
     private let getFilesUseCase = GetFiles()
     private let addFilesUseCase = AddFiles()
@@ -61,6 +49,11 @@ class MainViewModelImpl: MainViewModel {
 
     //MARK: - MainViewModel
 
+    func setSelectedFilesIndexes( _ newIndexes: [Int]) {
+        stateStorage.selectedFilesIndexes = newIndexes
+        isFilesActionsEnabled.send(!stateStorage.selectedFilesIndexes.isEmpty)
+    }
+
     func getFiles() {
         getFilesList?.cancel()
         isLoading.send(true)
@@ -68,13 +61,16 @@ class MainViewModelImpl: MainViewModel {
         getFilesList = getFilesUseCase
             .execute(with: ())
             .sink(receiveCompletion: { [weak self] (completion: Subscribers.Completion<Error>) in
-                self?.isLoading.send(false)
-                if case .failure(let error) = completion {
-                    self?.error.send(error)
+                guard let self = self else { return }
+                self.isLoading.send(false)
+
+                switch completion {
+                case .finished:             break
+                case .failure(let error):   self.error.send(error)
 
                 } }, receiveValue: { [weak self] (filesList: [File]) in
-                    self?.isLoading.send(false)
-                    self?.files = filesList
+                    guard let self = self else { return }
+                    self.updateFilesList(with: filesList)
             })
     }
 
@@ -96,13 +92,15 @@ class MainViewModelImpl: MainViewModel {
         addNewFiles = addFilesUseCase
             .execute(with: urls, progress: progressIndicator)
             .sink(receiveCompletion: { [weak self] (completion: Subscribers.Completion<Error>) in
-                self?.isLoading.send(false)
-                if case .failure(let error) = completion {
-                    self?.error.send(error)
+                guard let self = self else { return }
+                self.isLoading.send(false)
+
+                switch completion {
+                case .finished:             break
+                case .failure(let error):   self.error.send(error)
 
                 } }, receiveValue: { [weak self] _ in
                     self?.getFiles()
-                    self?.isLoading.send(false)
             })
     }
 
@@ -113,7 +111,7 @@ class MainViewModelImpl: MainViewModel {
         progressIndicator.reset()
         isLoading.send(true)
 
-        let filesToDelete = selectedFilesIndexes.map({ return files[$0] })
+        let filesToDelete = stateStorage.getSelectedFiles()
 
         removeFiles = removeFilesUseCase
             .execute(with: filesToDelete, progress: progressIndicator)
@@ -122,7 +120,7 @@ class MainViewModelImpl: MainViewModel {
                 self.isLoading.send(false)
 
                 switch completion {
-                case .finished:             self.selectedFilesIndexes.removeAll()
+                case .finished:             self.setSelectedFilesIndexes([])
                 case .failure(let error):   self.error.send(error)
 
                 } }, receiveValue: { [weak self] _ in
@@ -136,7 +134,7 @@ class MainViewModelImpl: MainViewModel {
         duplicateFiles?.cancel()
         progressIndicator.reset()
         isLoading.send(true)
-        let filesToDuplicate = selectedFilesIndexes.map({ return files[$0] })
+        let filesToDuplicate = stateStorage.getSelectedFiles()
 
         duplicateFiles = duplicateFilesUseCase
             .execute(with: filesToDuplicate, progress: progressIndicator)
@@ -148,7 +146,7 @@ class MainViewModelImpl: MainViewModel {
                 self.isLoading.send(false)
 
                 switch completion {
-                case .finished:             self.selectedFilesIndexes.removeAll()
+                case .finished:             self.setSelectedFilesIndexes([])
                 case .failure(let error):   self.error.send(error)
 
                 } }, receiveValue: { [weak self] _ in
@@ -163,7 +161,7 @@ class MainViewModelImpl: MainViewModel {
         progressIndicator.reset()
         isLoading.send(true)
 
-        let selectedFilesList = selectedFilesIndexes.map({ return files[$0] })
+        let selectedFilesList = stateStorage.getSelectedFiles()
 
         calculateHash = calculateHashUseCase
             .execute(with: selectedFilesList, progress: progressIndicator)
@@ -172,24 +170,29 @@ class MainViewModelImpl: MainViewModel {
                 self.isLoading.send(false)
 
                 switch completion {
-                case .finished:             self.selectedFilesIndexes.removeAll()
+                case .finished:             self.setSelectedFilesIndexes([])
                 case .failure(let error):   self.error.send(error)
 
                 } }, receiveValue: { [weak self] (filesWithHash: [File]) in
                     guard let self = self else { return }
-                    self.applyHashes(filesWithHash, toFilesAt: self.selectedFilesIndexes)
+                    self.applyHashes(filesWithHash, toFilesAt: self.stateStorage.selectedFilesIndexes)
             })
     }
 
     //MARK: - Private
 
     private func applyHashes(_ filesWithHash: [File], toFilesAt indexes: [Int]) {
-        var currentFiles = files
+        var currentFiles = stateStorage.files
         for file in filesWithHash {
             if let hash = file.hash, let index = currentFiles.firstIndex(where: { $0.id == file.id }) {
                 currentFiles[index].update(hash: hash)
             }
         }
-        files = currentFiles
+        updateFilesList(with: currentFiles)
+    }
+
+    private func updateFilesList(with files: [File]) {
+        stateStorage.files = files
+        filesViewItems.send(stateStorage.getViewItems())
     }
 }
