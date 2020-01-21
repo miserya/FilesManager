@@ -10,7 +10,7 @@ import Combine
 
 final public class AddFiles: UseCase<[URL], Void> {
 
-    private let service: FilesService = FilesServiceImpl()
+    private let service: FilesService = FilesServiceImpl(serviceManager: FilesXPCServiceManagerImpl.shared, cache: FilesServiceCacheImpl())
 
     override func build(with args: [URL], progress: ProgressIndicator?) -> AnyPublisher<Void, Error> {
         return service.add(filesAt: args, progress: progress)

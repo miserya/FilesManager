@@ -10,13 +10,16 @@ import Combine
 
 class FilesServiceImpl: FilesService {
 
-    @UserDefault(key: "files_manager_used_files", defaultValue: [])
-    private var filesList: [File]
+    private let filesCache: FilesServiceCache
+    private var serviceManager: FilesXPCServiceManager
 
-    private lazy var serviceManager = ServiceManager.shared
+    init(serviceManager: FilesXPCServiceManager, cache: FilesServiceCache) {
+        self.serviceManager = serviceManager
+        self.filesCache = cache
+    }
 
     func getFiles() -> AnyPublisher<[File], Error> {
-        return Publishers.Sequence(sequence: [filesList]).eraseToAnyPublisher()
+        return Publishers.Sequence(sequence: [ filesCache.getFiles() ]).eraseToAnyPublisher()
     }
 
     func add(filesAt urls: [URL], progress: ProgressIndicator?) -> AnyPublisher<Void, Error> {
@@ -29,13 +32,12 @@ class FilesServiceImpl: FilesService {
             publisher.send(completion: Subscribers.Completion<Error>.failure(error))
         }
         serviceManager.getAttributesForFiles(at: urls.map({ $0.path })) { [weak self] (files: [File], error: Error?) in
-            guard let self = self else { return }
 
             if let error = error {
                 publisher.send(completion: Subscribers.Completion<Error>.failure(error))
 
             } else {
-                self.filesList.append(contentsOf: files)
+                self?.filesCache.append(contentsOf: files)
                 publisher.send(())
             }
             publisher.send(completion: .finished)
@@ -46,6 +48,7 @@ class FilesServiceImpl: FilesService {
 
     func remove(files: [File], progress: ProgressIndicator?) -> AnyPublisher<Void, Error> {
         var deletedFilesCount: Double = 0
+        var filesList = filesCache.getFiles()
         filesList.removeAll { (file: File) -> Bool in
             return files.contains(where: { [weak progress = progress] (fileToDelete: File) in
                 if fileToDelete.location == file.location {
@@ -56,6 +59,7 @@ class FilesServiceImpl: FilesService {
                 return false
             })
         }
+        filesCache.set(filesList)
 
         return Publishers.Sequence(sequence: [()]).eraseToAnyPublisher()
     }

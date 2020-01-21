@@ -10,7 +10,7 @@ import Combine
 
 final public class DuplicateFiles: UseCase<[File], [String]> {
 
-    private let service: FilesService = FilesServiceImpl()
+    private let service: FilesService = FilesServiceImpl(serviceManager: FilesXPCServiceManagerImpl.shared, cache: FilesServiceCacheImpl())
 
     override func build(with args: [File], progress: ProgressIndicator?) -> AnyPublisher<[String], Error> {
         return service.duplicate(files: args, progress: progress)

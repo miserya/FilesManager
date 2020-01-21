@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		DE6C0D2923CF5703001D5F37 /* UserDefaults+PropertyWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6C0D2823CF5703001D5F37 /* UserDefaults+PropertyWrapper.swift */; };
 		DE6C0D3723D085FB001D5F37 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6C0D3623D085FB001D5F37 /* main.m */; };
-		DE6C0D4923D0A3C6001D5F37 /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6C0D4623D0A26F001D5F37 /* ServiceManager.swift */; };
+		DE6C0D4923D0A3C6001D5F37 /* FilesXPCServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6C0D4623D0A26F001D5F37 /* FilesXPCServiceManager.swift */; };
 		DE6C0D4B23D0A6F2001D5F37 /* CalculateHash.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6C0D4A23D0A6F2001D5F37 /* CalculateHash.swift */; };
 		DE6C0D5523D1B496001D5F37 /* XPCSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = DE6C0D5323D1B496001D5F37 /* XPCSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DE6C0D5E23D1B4CA001D5F37 /* FilesXPCServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6C0D5D23D1B4CA001D5F37 /* FilesXPCServiceProtocol.swift */; };
@@ -47,6 +47,15 @@
 		DE7769EA23D71264001E2CD6 /* ToolbarAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7769E923D71264001E2CD6 /* ToolbarAdapter.swift */; };
 		DE7769EC23D718E4001E2CD6 /* MainViewModelStateStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7769EB23D718E4001E2CD6 /* MainViewModelStateStorage.swift */; };
 		DE7769EF23D719AB001E2CD6 /* FilesDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7769EE23D719AB001E2CD6 /* FilesDataMapper.swift */; };
+		DE7769F923D7261E001E2CD6 /* DataLayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6F138323CDEBD0003FE5D0 /* DataLayer.framework */; };
+		DE776A0523D735F3001E2CD6 /* FilesServiceImplTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE776A0423D735F3001E2CD6 /* FilesServiceImplTests.swift */; };
+		DE776A0823D73628001E2CD6 /* FilesServiceImpl+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE776A0723D73628001E2CD6 /* FilesServiceImpl+Helper.swift */; };
+		DE776A0A23D73687001E2CD6 /* FilesXPCServiceManagerImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE776A0923D73687001E2CD6 /* FilesXPCServiceManagerImpl.swift */; };
+		DE776A0D23D73750001E2CD6 /* MockFilesXPCServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE776A0C23D73750001E2CD6 /* MockFilesXPCServiceManager.swift */; };
+		DE776A0F23D73A21001E2CD6 /* File+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE776A0E23D73A21001E2CD6 /* File+Helper.swift */; };
+		DE776A1223D742BB001E2CD6 /* FilesServiceCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE776A1123D742BB001E2CD6 /* FilesServiceCache.swift */; };
+		DE776A1423D747C4001E2CD6 /* MockFilesServiceCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE776A1323D747C4001E2CD6 /* MockFilesServiceCache.swift */; };
+		DE776A1623D74CC7001E2CD6 /* TestingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE776A1523D74CC7001E2CD6 /* TestingError.swift */; };
 		DE8868F223D58F5200BC91FE /* UseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8868F123D58F5200BC91FE /* UseCase.swift */; };
 		DE8868F423D58FD100BC91FE /* GetAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8868F323D58FD100BC91FE /* GetAttributes.swift */; };
 		DE8868F723D5921B00BC91FE /* FilesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8868F623D5921B00BC91FE /* FilesService.swift */; };
@@ -80,6 +89,13 @@
 			remoteInfo = XPCSupport;
 		};
 		DE6F138823CDEBD0003FE5D0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DE6F134A23CC74D3003FE5D0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DE6F138223CDEBD0003FE5D0;
+			remoteInfo = DataLayer;
+		};
+		DE7769FA23D7261E001E2CD6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DE6F134A23CC74D3003FE5D0 /* Project object */;
 			proxyType = 1;
@@ -140,7 +156,7 @@
 		DE6C0D3023D085FB001D5F37 /* FilesXPCService.xpc */ = {isa = PBXFileReference; explicitFileType = "wrapper.xpc-service"; includeInIndex = 0; path = FilesXPCService.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE6C0D3623D085FB001D5F37 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DE6C0D3823D085FB001D5F37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DE6C0D4623D0A26F001D5F37 /* ServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
+		DE6C0D4623D0A26F001D5F37 /* FilesXPCServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesXPCServiceManager.swift; sourceTree = "<group>"; };
 		DE6C0D4A23D0A6F2001D5F37 /* CalculateHash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculateHash.swift; sourceTree = "<group>"; };
 		DE6C0D5123D1B496001D5F37 /* XPCSupport.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = XPCSupport.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE6C0D5323D1B496001D5F37 /* XPCSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XPCSupport.h; sourceTree = "<group>"; };
@@ -179,6 +195,17 @@
 		DE7769E923D71264001E2CD6 /* ToolbarAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarAdapter.swift; sourceTree = "<group>"; };
 		DE7769EB23D718E4001E2CD6 /* MainViewModelStateStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModelStateStorage.swift; sourceTree = "<group>"; };
 		DE7769EE23D719AB001E2CD6 /* FilesDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesDataMapper.swift; sourceTree = "<group>"; };
+		DE7769F423D7261E001E2CD6 /* DataLayerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataLayerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE7769F823D7261E001E2CD6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DE776A0323D735F3001E2CD6 /* DataLayerTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DataLayerTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		DE776A0423D735F3001E2CD6 /* FilesServiceImplTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesServiceImplTests.swift; sourceTree = "<group>"; };
+		DE776A0723D73628001E2CD6 /* FilesServiceImpl+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FilesServiceImpl+Helper.swift"; sourceTree = "<group>"; };
+		DE776A0923D73687001E2CD6 /* FilesXPCServiceManagerImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesXPCServiceManagerImpl.swift; sourceTree = "<group>"; };
+		DE776A0C23D73750001E2CD6 /* MockFilesXPCServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFilesXPCServiceManager.swift; sourceTree = "<group>"; };
+		DE776A0E23D73A21001E2CD6 /* File+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "File+Helper.swift"; sourceTree = "<group>"; };
+		DE776A1123D742BB001E2CD6 /* FilesServiceCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesServiceCache.swift; sourceTree = "<group>"; };
+		DE776A1323D747C4001E2CD6 /* MockFilesServiceCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFilesServiceCache.swift; sourceTree = "<group>"; };
+		DE776A1523D74CC7001E2CD6 /* TestingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingError.swift; sourceTree = "<group>"; };
 		DE8868F123D58F5200BC91FE /* UseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCase.swift; sourceTree = "<group>"; };
 		DE8868F323D58FD100BC91FE /* GetAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAttributes.swift; sourceTree = "<group>"; };
 		DE8868F623D5921B00BC91FE /* FilesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesService.swift; sourceTree = "<group>"; };
@@ -227,6 +254,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DE7769F123D7261E001E2CD6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DE7769F923D7261E001E2CD6 /* DataLayer.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -271,6 +306,7 @@
 				DE6F138423CDEBD0003FE5D0 /* DataLayer */,
 				DE6C0D3123D085FB001D5F37 /* FilesXPCService */,
 				DE6C0D5223D1B496001D5F37 /* XPCSupport */,
+				DE7769F523D7261E001E2CD6 /* DataLayerTests */,
 				DE6F135323CC74D3003FE5D0 /* Products */,
 				DE6C0D5F23D1B4EC001D5F37 /* Frameworks */,
 			);
@@ -283,6 +319,7 @@
 				DE6F138323CDEBD0003FE5D0 /* DataLayer.framework */,
 				DE6C0D3023D085FB001D5F37 /* FilesXPCService.xpc */,
 				DE6C0D5123D1B496001D5F37 /* XPCSupport.framework */,
+				DE7769F423D7261E001E2CD6 /* DataLayerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -361,9 +398,9 @@
 		DE6F138423CDEBD0003FE5D0 /* DataLayer */ = {
 			isa = PBXGroup;
 			children = (
-				DE6C0D4623D0A26F001D5F37 /* ServiceManager.swift */,
 				DE6F139823CE1A6E003FE5D0 /* Entities */,
 				DE6F139323CE006D003FE5D0 /* Services */,
+				DE7769FF23D727C3001E2CD6 /* XPCServiceManagers */,
 				DE6F139023CDFCF7003FE5D0 /* Common */,
 				DE6F138523CDEBD0003FE5D0 /* DataLayer.h */,
 				DE6F138623CDEBD0003FE5D0 /* Info.plist */,
@@ -392,6 +429,7 @@
 		DE6F139423CE007D003FE5D0 /* FilesManager */ = {
 			isa = PBXGroup;
 			children = (
+				DE776A1023D74298001E2CD6 /* Cache */,
 				DE6F139723CE1A31003FE5D0 /* UseCases */,
 				DE6F139523CE0094003FE5D0 /* FilesService.swift */,
 				DE6F139A23CE1ACF003FE5D0 /* FilesServiceImpl.swift */,
@@ -444,6 +482,62 @@
 				DE7769EB23D718E4001E2CD6 /* MainViewModelStateStorage.swift */,
 			);
 			path = StateStorage;
+			sourceTree = "<group>";
+		};
+		DE7769F523D7261E001E2CD6 /* DataLayerTests */ = {
+			isa = PBXGroup;
+			children = (
+				DE776A0B23D7373F001E2CD6 /* Mocks */,
+				DE776A0623D73618001E2CD6 /* Helpers */,
+				DE776A0223D7286A001E2CD6 /* Services */,
+				DE7769F823D7261E001E2CD6 /* Info.plist */,
+			);
+			path = DataLayerTests;
+			sourceTree = "<group>";
+		};
+		DE7769FF23D727C3001E2CD6 /* XPCServiceManagers */ = {
+			isa = PBXGroup;
+			children = (
+				DE6C0D4623D0A26F001D5F37 /* FilesXPCServiceManager.swift */,
+				DE776A0923D73687001E2CD6 /* FilesXPCServiceManagerImpl.swift */,
+			);
+			path = XPCServiceManagers;
+			sourceTree = "<group>";
+		};
+		DE776A0223D7286A001E2CD6 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				DE776A0423D735F3001E2CD6 /* FilesServiceImplTests.swift */,
+				DE776A0323D735F3001E2CD6 /* DataLayerTests-Bridging-Header.h */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		DE776A0623D73618001E2CD6 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				DE776A0723D73628001E2CD6 /* FilesServiceImpl+Helper.swift */,
+				DE776A0E23D73A21001E2CD6 /* File+Helper.swift */,
+				DE776A1523D74CC7001E2CD6 /* TestingError.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		DE776A0B23D7373F001E2CD6 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				DE776A0C23D73750001E2CD6 /* MockFilesXPCServiceManager.swift */,
+				DE776A1323D747C4001E2CD6 /* MockFilesServiceCache.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
+		DE776A1023D74298001E2CD6 /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				DE776A1123D742BB001E2CD6 /* FilesServiceCache.swift */,
+			);
+			path = Cache;
 			sourceTree = "<group>";
 		};
 		DE8868F023D58F3200BC91FE /* UseCases */ = {
@@ -592,6 +686,24 @@
 			productReference = DE6F138323CDEBD0003FE5D0 /* DataLayer.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		DE7769F323D7261E001E2CD6 /* DataLayerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DE7769FC23D7261E001E2CD6 /* Build configuration list for PBXNativeTarget "DataLayerTests" */;
+			buildPhases = (
+				DE7769F023D7261E001E2CD6 /* Sources */,
+				DE7769F123D7261E001E2CD6 /* Frameworks */,
+				DE7769F223D7261E001E2CD6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DE7769FB23D7261E001E2CD6 /* PBXTargetDependency */,
+			);
+			name = DataLayerTests;
+			productName = DataLayerTests;
+			productReference = DE7769F423D7261E001E2CD6 /* DataLayerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -617,6 +729,10 @@
 						CreatedOnToolsVersion = 11.3;
 						LastSwiftMigration = 1130;
 					};
+					DE7769F323D7261E001E2CD6 = {
+						CreatedOnToolsVersion = 11.3.1;
+						LastSwiftMigration = 1130;
+					};
 				};
 			};
 			buildConfigurationList = DE6F134D23CC74D3003FE5D0 /* Build configuration list for PBXProject "FilesManager" */;
@@ -636,6 +752,7 @@
 				DE6F138223CDEBD0003FE5D0 /* DataLayer */,
 				DE6C0D2F23D085FB001D5F37 /* FilesXPCService */,
 				DE6C0D5023D1B496001D5F37 /* XPCSupport */,
+				DE7769F323D7261E001E2CD6 /* DataLayerTests */,
 			);
 		};
 /* End PBXProject section */
@@ -665,6 +782,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		DE6F138123CDEBD0003FE5D0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DE7769F223D7261E001E2CD6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -730,7 +854,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE88690823D6F20E00BC91FE /* ProgressIndicator.swift in Sources */,
-				DE6C0D4923D0A3C6001D5F37 /* ServiceManager.swift in Sources */,
+				DE6C0D4923D0A3C6001D5F37 /* FilesXPCServiceManager.swift in Sources */,
 				DE9BCD7D23CF410E0084D95C /* GetFiles.swift in Sources */,
 				DE6F139F23CE1C42003FE5D0 /* Publishers+Fail.swift in Sources */,
 				DE6F139D23CE1B38003FE5D0 /* AddFiles.swift in Sources */,
@@ -739,10 +863,25 @@
 				DE6F139B23CE1ACF003FE5D0 /* FilesServiceImpl.swift in Sources */,
 				DE6F139923CE1A74003FE5D0 /* File.swift in Sources */,
 				DEF6221823D1F1A40075C79C /* DuplicateFiles.swift in Sources */,
+				DE776A1223D742BB001E2CD6 /* FilesServiceCache.swift in Sources */,
+				DE776A0A23D73687001E2CD6 /* FilesXPCServiceManagerImpl.swift in Sources */,
 				DE6C0D4B23D0A6F2001D5F37 /* CalculateHash.swift in Sources */,
 				DE6F13A323CE1D03003FE5D0 /* RemoveFiles.swift in Sources */,
 				DE6F13A123CE1C77003FE5D0 /* DataLayerError.swift in Sources */,
 				DE6F139623CE0094003FE5D0 /* FilesService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DE7769F023D7261E001E2CD6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DE776A0D23D73750001E2CD6 /* MockFilesXPCServiceManager.swift in Sources */,
+				DE776A0523D735F3001E2CD6 /* FilesServiceImplTests.swift in Sources */,
+				DE776A0823D73628001E2CD6 /* FilesServiceImpl+Helper.swift in Sources */,
+				DE776A1623D74CC7001E2CD6 /* TestingError.swift in Sources */,
+				DE776A0F23D73A21001E2CD6 /* File+Helper.swift in Sources */,
+				DE776A1423D747C4001E2CD6 /* MockFilesServiceCache.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -763,6 +902,11 @@
 			isa = PBXTargetDependency;
 			target = DE6F138223CDEBD0003FE5D0 /* DataLayer */;
 			targetProxy = DE6F138823CDEBD0003FE5D0 /* PBXContainerItemProxy */;
+		};
+		DE7769FB23D7261E001E2CD6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DE6F138223CDEBD0003FE5D0 /* DataLayer */;
+			targetProxy = DE7769FA23D7261E001E2CD6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1084,6 +1228,45 @@
 			};
 			name = Release;
 		};
+		DE7769FD23D7261E001E2CD6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = DataLayerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.miserya.DataLayerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "DataLayerTests/Services/DataLayerTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		DE7769FE23D7261E001E2CD6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = DataLayerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.miserya.DataLayerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "DataLayerTests/Services/DataLayerTests-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1128,6 +1311,15 @@
 			buildConfigurations = (
 				DE6F138D23CDEBD0003FE5D0 /* Debug */,
 				DE6F138E23CDEBD0003FE5D0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DE7769FC23D7261E001E2CD6 /* Build configuration list for PBXNativeTarget "DataLayerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DE7769FD23D7261E001E2CD6 /* Debug */,
+				DE7769FE23D7261E001E2CD6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

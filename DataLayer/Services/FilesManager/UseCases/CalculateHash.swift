@@ -10,7 +10,7 @@ import Combine
 
 final public class CalculateHash: UseCase<[File], [File]> {
 
-    private let service: FilesService = FilesServiceImpl()
+    private let service: FilesService = FilesServiceImpl(serviceManager: FilesXPCServiceManagerImpl.shared, cache: FilesServiceCacheImpl())
 
     override func build(with args: [File], progress: ProgressIndicator?) -> AnyPublisher<[File], Error> {
         return service.calculateHash(for: args, progress: progress)

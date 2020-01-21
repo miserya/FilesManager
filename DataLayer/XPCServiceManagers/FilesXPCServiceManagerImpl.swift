@@ -1,17 +1,17 @@
 //
-//  ServiceManager.swift
+//  FilesXPCServiceManagerImpl.swift
 //  DataLayer
 //
-//  Created by Maria Holubieva on 16.01.2020.
+//  Created by Maria Holubieva on 21.01.2020.
 //  Copyright © 2020 Maria Holubieva. All rights reserved.
 //
 
 import Foundation
 import XPCSupport
 
-class ServiceManager: FilesXPCProgress {
+class FilesXPCServiceManagerImpl: FilesXPCServiceManager, FilesXPCProgress {
 
-    static var shared = ServiceManager()
+    static var shared: FilesXPCServiceManager = FilesXPCServiceManagerImpl()
 
     var errorHandler: ((Error) -> Void)?
     var updateProgress: ((Double) -> Void)?
@@ -43,8 +43,8 @@ class ServiceManager: FilesXPCProgress {
         let defaultErrorHandler: ((Error) -> Void) = { (error) in debugPrint("XPC connection ERROR: \(error.localizedDescription)") }
 
         guard let xpcService = connection.remoteObjectProxyWithErrorHandler(errorHandler ?? defaultErrorHandler) as? FilesXPCServiceProtocol else {
-                self.errorHandler?(DataLayerError.unableToSetupXPCConnection(connection))
-                return
+            self.errorHandler?(DataLayerError.unableToSetupXPCConnection(connection))
+            return
         }
 
         filesService = xpcService
