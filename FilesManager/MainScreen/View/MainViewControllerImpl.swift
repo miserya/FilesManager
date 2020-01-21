@@ -9,7 +9,7 @@
 import Cocoa
 import Combine
 
-class MainViewControllerImpl: NSViewController, MainViewController {
+class MainViewControllerImpl: NSViewController, MainViewController, NSToolbarItemValidation {
 
     @IBOutlet weak var tableView: NSTableView!
     @IBOutlet weak var progressIndicator: NSProgressIndicator!
@@ -18,6 +18,7 @@ class MainViewControllerImpl: NSViewController, MainViewController {
 
     private lazy var viewModel: MainViewModel = MainViewModelImpl()
     private lazy var adapter = MainTableViewAdapter()
+    private lazy var toolbarAdapter = ToolbarAdapter()
 
     override var representedObject: Any? {
         didSet {
@@ -83,6 +84,10 @@ class MainViewControllerImpl: NSViewController, MainViewController {
                 } }
             .store(in: &subscriptions)
 
+        viewModel.isFilesActionsEnabled
+            .assign(to: \.isFilesActionsEnabled, on: toolbarAdapter)
+            .store(in: &subscriptions)
+
         viewModel.isOpenPanelShowed
             .sink(receiveCompletion: { _ in }) { [weak self] (value: Bool) in
                 if value {
@@ -126,5 +131,11 @@ class MainViewControllerImpl: NSViewController, MainViewController {
                 viewModel.addFiles(at: panel.urls)
             }
         }
+    }
+
+    //MARK: - NSToolbarItemValidation
+
+    func validateToolbarItem(_ item: NSToolbarItem) -> Bool {
+        return toolbarAdapter.validateToolbarItem(item)
     }
 }

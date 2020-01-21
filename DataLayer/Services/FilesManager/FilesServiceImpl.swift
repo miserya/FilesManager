@@ -38,6 +38,7 @@ class FilesServiceImpl: FilesService {
                 self.filesList.append(contentsOf: files)
                 publisher.send(())
             }
+            publisher.send(completion: .finished)
         }
 
         return publisher.eraseToAnyPublisher()
@@ -75,6 +76,7 @@ class FilesServiceImpl: FilesService {
             } else {
                 publisher.send(newPathes)
             }
+            publisher.send(completion: .finished)
         }
         return publisher.eraseToAnyPublisher()
     }
@@ -96,6 +98,7 @@ class FilesServiceImpl: FilesService {
             } else {
                 publisher.send(updatedFiles)
             }
+            publisher.send(completion: .finished)
         }
 
         return publisher.eraseToAnyPublisher()

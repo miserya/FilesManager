@@ -118,13 +118,15 @@ class MainViewModelImpl: MainViewModel {
         removeFiles = removeFilesUseCase
             .execute(with: filesToDelete, progress: progressIndicator)
             .sink(receiveCompletion: { [weak self] (completion: Subscribers.Completion<Error>) in
-                self?.isLoading.send(false)
-                if case .failure(let error) = completion {
-                    self?.error.send(error)
+                guard let self = self else { return }
+                self.isLoading.send(false)
+
+                switch completion {
+                case .finished:             self.selectedFilesIndexes.removeAll()
+                case .failure(let error):   self.error.send(error)
 
                 } }, receiveValue: { [weak self] _ in
                     self?.getFiles()
-                    self?.isLoading.send(false)
             })
     }
 
@@ -142,13 +144,15 @@ class MainViewModelImpl: MainViewModel {
                 return (self?.addFilesUseCase.execute(with: newPathes.compactMap({ return URL(fileURLWithPath: $0) })) ?? PassthroughSubject<Void, Error>().eraseToAnyPublisher())
             })
             .sink(receiveCompletion: { [weak self] (completion: Subscribers.Completion<Error>) in
-                self?.isLoading.send(false)
-                if case .failure(let error) = completion {
-                    self?.error.send(error)
+                guard let self = self else { return }
+                self.isLoading.send(false)
+
+                switch completion {
+                case .finished:             self.selectedFilesIndexes.removeAll()
+                case .failure(let error):   self.error.send(error)
 
                 } }, receiveValue: { [weak self] _ in
                     self?.getFiles()
-                    self?.isLoading.send(false)
             })
     }
 
@@ -164,13 +168,15 @@ class MainViewModelImpl: MainViewModel {
         calculateHash = calculateHashUseCase
             .execute(with: selectedFilesList, progress: progressIndicator)
             .sink(receiveCompletion: { [weak self] (completion: Subscribers.Completion<Error>) in
-                self?.isLoading.send(false)
-                if case .failure(let error) = completion {
-                self?.error.send(error)
+                guard let self = self else { return }
+                self.isLoading.send(false)
+
+                switch completion {
+                case .finished:             self.selectedFilesIndexes.removeAll()
+                case .failure(let error):   self.error.send(error)
 
                 } }, receiveValue: { [weak self] (filesWithHash: [File]) in
                     guard let self = self else { return }
-                    self.isLoading.send(false)
                     self.applyHashes(filesWithHash, toFilesAt: self.selectedFilesIndexes)
             })
     }

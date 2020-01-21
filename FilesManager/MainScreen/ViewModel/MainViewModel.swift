@@ -40,4 +40,5 @@ protocol MainViewModel: AnyObject {
     func onNeedDuplicateSelectedFiles()
 
     func onNeedCalculateHashForSelectedFiles()
+
 }
